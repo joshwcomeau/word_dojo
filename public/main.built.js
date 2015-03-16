@@ -7,36 +7,56 @@ console.log(document.getElementById("app"));
 React.render(React.createElement(Gameboard, null), document.getElementById("app"));
 
 
-},{"../libs/react/react-with-addons":4,"./components/Gameboard.jsx":2}],2:[function(require,module,exports){
-var React = require('../../libs/react/react-with-addons');
-var Tile  = require('./Tile.jsx');
+},{"../libs/react/react-with-addons":5,"./components/Gameboard.jsx":2}],2:[function(require,module,exports){
+var React       = require('../../libs/react/react-with-addons');
+var TileColumn  = require('./TileColumn.jsx');
 
 module.exports = React.createClass({displayName: "exports",
   render: function() {
+    var tileColumnNodes = _.times(10, function() {
+      return (React.createElement(TileColumn, null));
+    }, this);
+
     return (
       React.createElement("div", {className: "gameboard"}, 
-          React.createElement(Tile, {letter: "A"}), 
-          React.createElement(Tile, {letter: "B"}), 
-          React.createElement(Tile, {letter: "T"})
+           tileColumnNodes 
       )
     )
   }
 });
 
-},{"../../libs/react/react-with-addons":4,"./Tile.jsx":3}],3:[function(require,module,exports){
+},{"../../libs/react/react-with-addons":5,"./TileColumn.jsx":4}],3:[function(require,module,exports){
 var React = require('../../libs/react/react-with-addons');
 
 module.exports = React.createClass({displayName: "exports",
   render: function() {
     return (
       React.createElement("div", {className: "tile"}, 
-        this.props.letter
+        "A"
       )
     )
   }
 });
 
-},{"../../libs/react/react-with-addons":4}],4:[function(require,module,exports){
+},{"../../libs/react/react-with-addons":5}],4:[function(require,module,exports){
+var React = require('../../libs/react/react-with-addons');
+var Tile  = require('./Tile.jsx');
+
+module.exports = React.createClass({displayName: "exports",
+  render: function() {
+    var tileNodes = _.times(10, function() {
+      return (React.createElement(Tile, null));
+    }, this);
+
+    return (
+      React.createElement("div", {className: "tile-column"}, 
+         tileNodes 
+      )
+    )
+  }
+});
+
+},{"../../libs/react/react-with-addons":5,"./Tile.jsx":3}],5:[function(require,module,exports){
 (function (global){
 /**
  * React (with addons) v0.13.0
