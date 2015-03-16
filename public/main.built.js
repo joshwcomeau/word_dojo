@@ -2,7 +2,9 @@
 var React       = require('../libs/react/react-with-addons');
 var Gameboard   = require('./components/Gameboard.jsx');
 
-React.renderComponent(React.createElement(Gameboard, null), document.body);
+console.log(document.getElementById("app"));
+
+React.render(React.createElement(Gameboard, null), document.getElementById("app"));
 
 
 },{"../libs/react/react-with-addons":4,"./components/Gameboard.jsx":2}],2:[function(require,module,exports){
