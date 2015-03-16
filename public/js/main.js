@@ -1,4 +1,4 @@
-var React       = require('react');
-var Gameboard   = require('./components/Gameboard');
+var React       = require('../libs/react/react-with-addons');
+var Gameboard   = require('./components/Gameboard.jsx');
 
 React.renderComponent(<Gameboard />, document.body);

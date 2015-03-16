@@ -10,7 +10,12 @@ var gulp          = require('gulp'),
     notify        = require('gulp-notify'),
     cache         = require('gulp-cache'),
     livereload    = require('gulp-livereload'),
-    sourcemaps    = require('gulp-sourcemaps');
+    sourcemaps    = require('gulp-sourcemaps'),
+    react         = require('gulp-react'),
+    reactify      = require('reactify'),
+    browserify    = require('browserify'),
+    source        = require('vinyl-source-stream');
+
 
 function errorLog (error) {
   console.error(error.message); 
@@ -18,7 +23,7 @@ function errorLog (error) {
 }
 
 gulp.task('default', function() {
-    gulp.start('styles', 'scripts', 'watch');
+    gulp.start('browserify');
 });
 
 gulp.task('styles', function() {
@@ -36,17 +41,25 @@ gulp.task('styles', function() {
 });
 
 
+gulp.task('browserify', function(){
+  var b = browserify();
+  b.transform(reactify); // use the reactify transform
+  b.add('./public/js/main.js');
+  return b.bundle()
+    .pipe(source('main.js'))
+    .pipe(gulp.dest('./public'));
+});
+
 gulp.task('scripts', function() {
-  return gulp.src(['public/**/*.module.js', 'public/app.routes.js', 'public/app.js', 'public/components/**/*.js', 'public/shared/**/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(sourcemaps.init())
-      .pipe(concat('main.min.js'))
-      .pipe(uglify())
-    .pipe(sourcemaps.write('./'))
-    .on('error', errorLog)
-    .pipe(gulp.dest('public/assets/js'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+
+  return gulp.src('')
+    .pipe(browserify({
+      insertGlobals : true,
+      transform: ['reactify'],
+      extensions: ['.jsx'],
+      debug : !gulp.env.production
+    }))
+    .pipe(gulp.dest('./public/js/main.built.js'))  
 });
 
 gulp.task('watch', ['styles', 'scripts'], function() {
