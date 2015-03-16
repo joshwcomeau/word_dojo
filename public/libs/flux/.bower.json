@@ -44,6 +44,7 @@
     "commit": "253b58aac6cadda1ce09af9c8360b9530b31023a"
   },
   "_source": "git://github.com/facebook/flux.git",
-  "_target": "*",
-  "_originalSource": "flux"
+  "_target": "~2.0.2",
+  "_originalSource": "flux",
+  "_direct": true
 }
