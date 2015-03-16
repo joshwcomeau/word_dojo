@@ -14,7 +14,8 @@ var gulp          = require('gulp'),
     react         = require('gulp-react'),
     reactify      = require('reactify'),
     browserify    = require('browserify'),
-    source        = require('vinyl-source-stream');
+    source        = require('vinyl-source-stream'),
+    webserver     = require('gulp-webserver');
 
 
 function errorLog (error) {
@@ -23,7 +24,7 @@ function errorLog (error) {
 }
 
 gulp.task('default', function() {
-    gulp.start('browserify');
+    gulp.start('browserify', 'webserver');
 });
 
 gulp.task('styles', function() {
@@ -47,19 +48,18 @@ gulp.task('browserify', function(){
   b.add('./public/js/main.js');
   return b.bundle()
     .pipe(source('main.js'))
+    .pipe(rename('main.built.js'))
     .pipe(gulp.dest('./public'));
 });
 
-gulp.task('scripts', function() {
-
-  return gulp.src('')
-    .pipe(browserify({
-      insertGlobals : true,
-      transform: ['reactify'],
-      extensions: ['.jsx'],
-      debug : !gulp.env.production
-    }))
-    .pipe(gulp.dest('./public/js/main.built.js'))  
+gulp.task('webserver', function() {
+  gulp.src('public')
+    .pipe(webserver({
+      livereload: true,
+      directoryListing: false,
+      open: true,
+      fallback: 'index.html'
+    }));
 });
 
 gulp.task('watch', ['styles', 'scripts'], function() {
