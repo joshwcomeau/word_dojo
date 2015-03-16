@@ -16,7 +16,7 @@ module.exports = React.createClass({displayName: "exports",
     return (
       React.createElement("div", {className: "gameboard"}, 
           React.createElement(Tile, {letter: "A"}), 
-          React.createElement(Tile, {letter: "X"}), 
+          React.createElement(Tile, {letter: "B"}), 
           React.createElement(Tile, {letter: "T"})
       )
     )

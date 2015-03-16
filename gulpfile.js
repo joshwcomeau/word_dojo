@@ -24,19 +24,19 @@ function errorLog (error) {
 }
 
 gulp.task('default', function() {
-    gulp.start('browserify', 'webserver');
+    gulp.start('browserify', 'styles', 'webserver', 'watch');
 });
 
 gulp.task('styles', function() {
-  return gulp.src('public/assets/css/*.scss')
+  return gulp.src('public/scss/*.scss')
     .pipe(sourcemaps.init())
       .pipe(sass())
       .on('error', errorLog)
       .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
       .pipe(minifycss())
-      .pipe(concat('style.min.css'))
+      .pipe(concat('style.css'))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('public/assets/css/'))
+    .pipe(gulp.dest('public/'))
     .pipe(livereload())
     .pipe(notify({ message: 'Styles task complete' }));
 });
@@ -50,6 +50,7 @@ gulp.task('browserify', function(){
     .pipe(source('main.js'))
     .pipe(rename('main.built.js'))
     .pipe(gulp.dest('./public'));
+
 });
 
 gulp.task('webserver', function() {
@@ -62,7 +63,7 @@ gulp.task('webserver', function() {
     }));
 });
 
-gulp.task('watch', ['styles', 'scripts'], function() {
-  gulp.watch('public/**/*.js', ['scripts']);
+gulp.task('watch', ['styles', 'browserify'], function() {
+  gulp.watch(['public/**/*.js', 'public/js/components/**/*.jsx'], ['browserify']);
   gulp.watch('public/**/*.scss', ['styles']);
 });
