@@ -1,3 +1,33 @@
+html {
+  height: 100%;
+}
+
 body {
-  // background: #00F;
+  min-height: 100%;
+  position: relative;
+  background: #EEE;
+}
+
+.gameboard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 600px;
+  height: 600px;
+  padding: 1rem;
+  background: #FFF;
+}
+
+.tile-column {
+  position: relative;
+  display: inline-block;
+  width: 10%;
+  height: 100%;
+}
+
+.tile {
+  position: relative;
 }
