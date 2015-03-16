@@ -1,0 +1,9 @@
+{
+  "name": "MEAN_stack_starter",
+  "dependencies": {
+    "font-awesome":     "latest",
+    "react":            "latest",
+    "flux":             "latest",
+    "jquery":           "latest"
+  }
+}
