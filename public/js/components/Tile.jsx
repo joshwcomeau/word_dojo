@@ -1,6 +1,5 @@
 var React       = require('../../libs/react/react-with-addons');
 var GameActions = require('../actions/GameActions');
-var LetterStore = require('../stores/LetterStore');
 
 module.exports  = React.createClass({
   clickLetter: function(e) {
@@ -10,16 +9,16 @@ module.exports  = React.createClass({
     GameActions.clickLetter(letter);
   },
 
-  getInitialState: function() {
-    return {
-      letter: LetterStore.getNewLetter()
-    };
-  },
+  // getInitialState: function() {
+  //   return {
+  //     letter: LetterStore.getNewLetter()
+  //   };
+  // },
 
   render: function() {
     return (
       <div className="tile" onClick={this.clickLetter}>
-        {this.state.letter}
+        {this.props.letter}
       </div>
     )
   }

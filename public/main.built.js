@@ -7,7 +7,7 @@ console.log(document.getElementById("app"));
 React.render(React.createElement(Gameboard, null), document.getElementById("app"));
 
 
-},{"../libs/react/react-with-addons":14,"./components/Gameboard.jsx":8}],2:[function(require,module,exports){
+},{"../libs/react/react-with-addons":15,"./components/Gameboard.jsx":8}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -689,6 +689,12 @@ var AppDispatcher = require('../core/AppDispatcher');
 var AppConstants  = require('../constants/AppConstants');
 
 module.exports = {
+  initialize: function(size) {    
+    AppDispatcher.dispatch({
+      type: AppConstants.INITIALIZE,
+      size: size
+    });
+  },
   clickLetter: function(letter) {    
     AppDispatcher.dispatch({
       type:   AppConstants.CLICK_LETTER,
@@ -700,11 +706,36 @@ module.exports = {
 },{"../constants/AppConstants":11,"../core/AppDispatcher":12}],8:[function(require,module,exports){
 var React       = require('../../libs/react/react-with-addons');
 var TileColumn  = require('./TileColumn.jsx');
+var GameActions = require('../actions/GameActions');
+var GameStore   = require('../stores/GameStore');
+
+function getState() {
+  return {
+    board: GameStore.getBoard()
+  }
+}
 
 module.exports = React.createClass({displayName: "exports",
+  getInitialState: function() {
+    return getState();
+  },
+  componentWillMount: function() {
+    GameActions.initialize(10);
+  },
+
+  componentDidMount: function() {
+    GameStore.addChangeListener(this._onChange);
+  },
+  componentWillUnmount: function() {
+    GameStore.removeChangeListener(this._onChange);
+  },
+  _onChange: function() {
+    this.setState(getState());
+  },  
+
   render: function() {
     var tileColumnNodes = _.times(10, function(index) {
-      return (React.createElement(TileColumn, {key: index}));
+      return (React.createElement(TileColumn, {key: index, tiles: this.state.board[index]}));
     }, this);
 
     return (
@@ -715,10 +746,9 @@ module.exports = React.createClass({displayName: "exports",
   }
 });
 
-},{"../../libs/react/react-with-addons":14,"./TileColumn.jsx":10}],9:[function(require,module,exports){
+},{"../../libs/react/react-with-addons":15,"../actions/GameActions":7,"../stores/GameStore":13,"./TileColumn.jsx":10}],9:[function(require,module,exports){
 var React       = require('../../libs/react/react-with-addons');
 var GameActions = require('../actions/GameActions');
-var LetterStore = require('../stores/LetterStore');
 
 module.exports  = React.createClass({displayName: "exports",
   clickLetter: function(e) {
@@ -728,29 +758,29 @@ module.exports  = React.createClass({displayName: "exports",
     GameActions.clickLetter(letter);
   },
 
-  getInitialState: function() {
-    return {
-      letter: LetterStore.getNewLetter()
-    };
-  },
+  // getInitialState: function() {
+  //   return {
+  //     letter: LetterStore.getNewLetter()
+  //   };
+  // },
 
   render: function() {
     return (
       React.createElement("div", {className: "tile", onClick: this.clickLetter}, 
-        this.state.letter
+        this.props.letter
       )
     )
   }
 });
 
-},{"../../libs/react/react-with-addons":14,"../actions/GameActions":7,"../stores/LetterStore":13}],10:[function(require,module,exports){
+},{"../../libs/react/react-with-addons":15,"../actions/GameActions":7}],10:[function(require,module,exports){
 var React = require('../../libs/react/react-with-addons');
 var Tile  = require('./Tile.jsx');
 
 module.exports = React.createClass({displayName: "exports",
   render: function() {
     var tileNodes = _.times(10, function(index) {
-      return (React.createElement(Tile, {key: index}));
+      return (React.createElement(Tile, {key: index, letter: this.props.tiles[index]}));
     }, this);
 
     return (
@@ -761,10 +791,11 @@ module.exports = React.createClass({displayName: "exports",
   }
 });
 
-},{"../../libs/react/react-with-addons":14,"./Tile.jsx":9}],11:[function(require,module,exports){
+},{"../../libs/react/react-with-addons":15,"./Tile.jsx":9}],11:[function(require,module,exports){
 var keyMirror = require('keymirror');
 
 module.exports = keyMirror({
+  INITIALIZE: null,
   CLICK_LETTER: null
 });
 
@@ -785,35 +816,34 @@ module.exports = AppDispatcher;
 
 
 },{"flux":3}],13:[function(require,module,exports){
-// LetterStore.
-// Called by Tile components to generate new letters. Handles proper distribution of appropriate letters,
-// 'special' letters, etc.
+// GameStore.
+// Deals with scorekeeping, move validations, timing, etc.
+var EventEmitter    = require('events').EventEmitter;
+var AppDispatcher   = require('../core/AppDispatcher'); 
+var AppConstants    = require('../constants/AppConstants'); 
+var LetterGenerator = require('../utils/LetterGenerator'); 
+    
 
-var EventEmitter  = require('events').EventEmitter;
-var AppDispatcher = require('../core/AppDispatcher'); 
-var AppConstants  = require('../constants/AppConstants'); 
+var _score = 0;
+var _moves = 0;
+var _time  = 0;
 
+var _board = [];
 
-var _generatedLetters = [];
-var _letters          = {
-  vowels:     'AEIOUY',                 // Damn straight, Y is a vowel.
-  consonants: 'BCDFGHJKLMNPQRSTVWXZ'
-};
+function resetBoard(size) {
+  var column, letter;
 
+  _.times(size, function(column_index) {
+    _board.push( LetterGenerator.generate(size) );
+  })
+}
 
-var generateLetter = function() {
-  // For now, let's keep it simple: 50% chance to get a vowel, 50% to get a consonant.
-  // Later I will need to figure out a smarter way, so that letters like R show up more
-  // than letters like X or Z.
-  var newLetter = Math.random() < 0.5 ? _.sample(_letters.vowels) : _.sample(_letters.consonants);
-
-  _generatedLetters.push(newLetter);
-  return newLetter;
-};
-
-var LetterStore = _.extend({}, EventEmitter.prototype, {
+var GameStore = _.extend({}, EventEmitter.prototype, {
   // Getters
-  getNewLetter: function() { return generateLetter(); },
+  getScore: function() { return _score; },
+  getMoves: function() { return _moves; },
+  getTime:  function() { return _time;  },
+  getBoard: function() { return _board; },
 
   // Default store methods
   emitChange: function() { this.emit('change'); },
@@ -824,17 +854,57 @@ var LetterStore = _.extend({}, EventEmitter.prototype, {
 
 AppDispatcher.register(function(action) {
   switch (action.type) {
+    case AppConstants.INITIALIZE:
+      resetBoard(action.size);
+      GameStore.emitChange();
+      break;
+
     case AppConstants.CLICK_LETTER:
+      GameStore.emitChange();
+      break;
 
   }
 
 });
 
 
-module.exports = LetterStore;
+module.exports = GameStore;
 
 
-},{"../constants/AppConstants":11,"../core/AppDispatcher":12,"events":2}],14:[function(require,module,exports){
+},{"../constants/AppConstants":11,"../core/AppDispatcher":12,"../utils/LetterGenerator":14,"events":2}],14:[function(require,module,exports){
+// Letter Generator.
+// Randomly selects appropriate letters. Also handles special letters (when I get there).
+
+var _generatedLetters = [];
+var _letters          = {
+  vowels:     'AEIOUY',                 // Damn straight, Y is a vowel.
+  consonants: 'BCDFGHJKLMNPQRSTVWXZ'
+};
+
+var letterGenerator = {
+  generate: function(num) {
+    // For now, let's keep it simple: 50% chance to get a vowel, 50% to get a consonant.
+    // Later I will need to figure out a smarter way, so that letters like R show up more
+    // than letters like X or Z.
+    var letter,
+        letters = [];
+
+    _.times(num, function() {
+      letter = Math.random() < 0.5 ? _.sample(_letters.vowels) : _.sample(_letters.consonants);
+      letters.push(letter);
+    });
+
+    return letters;
+  }
+};
+
+
+
+
+module.exports = letterGenerator;
+
+
+},{}],15:[function(require,module,exports){
 (function (global){
 /**
  * React (with addons) v0.13.0

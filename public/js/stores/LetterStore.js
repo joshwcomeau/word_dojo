@@ -14,7 +14,7 @@ var _letters          = {
 };
 
 
-var generateLetter = function() {
+function generateLetter() {
   // For now, let's keep it simple: 50% chance to get a vowel, 50% to get a consonant.
   // Later I will need to figure out a smarter way, so that letters like R show up more
   // than letters like X or Z.
@@ -22,7 +22,7 @@ var generateLetter = function() {
 
   _generatedLetters.push(newLetter);
   return newLetter;
-};
+}
 
 var LetterStore = _.extend({}, EventEmitter.prototype, {
   // Getters
