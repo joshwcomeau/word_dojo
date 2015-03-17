@@ -3,8 +3,8 @@ var TileColumn  = require('./TileColumn.jsx');
 
 module.exports = React.createClass({
   render: function() {
-    var tileColumnNodes = _.times(10, function() {
-      return (<TileColumn />);
+    var tileColumnNodes = _.times(10, function(index) {
+      return (<TileColumn key={index} />);
     }, this);
 
     return (

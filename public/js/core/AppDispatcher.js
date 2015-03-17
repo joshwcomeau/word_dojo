@@ -1,4 +1,4 @@
-var flux = require('../libs/flux/dist/Flux');
+var flux = require('flux');
 
 var AppDispatcher = new flux.Dispatcher();
 

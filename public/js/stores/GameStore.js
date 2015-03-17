@@ -1,7 +1,8 @@
 // GameStore.
 // Deals with scorekeeping, move validations, timing, etc.
-var EventEmitter  = require('../libs/emitter/EventEmitter'),
-    AppDispatcher = require('../core/AppDispatcher'); 
+var EventEmitter  = require('events').EventEmitter;
+var AppDispatcher = require('../core/AppDispatcher'); 
+var AppConstants  = require('../constants/AppConstants'); 
     
 
 var _score = 0;
@@ -21,11 +22,11 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
 
 });
 
-AppDispatcher.register(function(payload) {
-  var action = payload.action;
-
-  switch (action.actionType) {
-    case AppConstants.SELECT_LETTER:
+AppDispatcher.register(function(action) {
+  switch (action.type) {
+    case AppConstants.CLICK_LETTER:
+      GameStore.emitChange();
+      break;
 
   }
 
