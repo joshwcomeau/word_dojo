@@ -38,7 +38,6 @@ gulp.task('styles', function() {
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('public/'))
     .pipe(livereload())
-    .pipe(notify({ message: 'Styles task complete' }));
 });
 
 

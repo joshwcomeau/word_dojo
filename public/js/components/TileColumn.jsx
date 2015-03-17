@@ -4,7 +4,7 @@ var Tile  = require('./Tile.jsx');
 module.exports = React.createClass({
   render: function() {
     var tileNodes = _.times(10, function(index) {
-      return (<Tile key={index} letter={this.props.tiles[index]} />);
+      return (<Tile key={index} column={this.props.column} row={index} tile={this.props.tiles[index]} />);
     }, this);
 
     return (

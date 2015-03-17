@@ -28,8 +28,9 @@ module.exports = React.createClass({
   },  
 
   render: function() {
+    console.log(this.state.board);
     var tileColumnNodes = _.times(10, function(index) {
-      return (<TileColumn key={index} tiles={this.state.board[index]} />);
+      return (<TileColumn key={index} column={index} tiles={this.state.board[index]} />);
     }, this);
 
     return (

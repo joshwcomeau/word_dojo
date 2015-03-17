@@ -8,10 +8,11 @@ module.exports = {
       size: size
     });
   },
-  clickLetter: function(letter) {    
+  clickLetter: function(column, row) {    
     AppDispatcher.dispatch({
       type:   AppConstants.CLICK_LETTER,
-      letter: letter
+      column: column,
+      row:    row
     });
   }
 };

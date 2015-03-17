@@ -1,25 +1,35 @@
 var React       = require('../../libs/react/react-with-addons');
 var GameActions = require('../actions/GameActions');
+var GameStore   = require('../stores/GameStore');
+
+function getState(col, row) {
+    console.log('getting state of ', col, row, GameStore.isActiveTile(col, row))
+    return {
+      active: GameStore.isActiveTile(col, row)
+    }
+}
+
 
 module.exports  = React.createClass({
-  clickLetter: function(e) {
-    var letter = e.target.textContent;
-    console.log("letter is", letter);
-
-    GameActions.clickLetter(letter);
+  getInitialState: function() {
+    return getState(this.props.column, this.props.row);
   },
 
-  // getInitialState: function() {
-  //   return {
-  //     letter: LetterStore.getNewLetter()
-  //   };
-  // },
+  clickLetter: function(e) {
+    // Send the event along to our store.
+    GameActions.clickLetter(this.props.column, this.props.row);
+  },
 
   render: function() {
+    var tileClasses = React.addons.classSet({
+      "tile": true,
+      "active": this.state.active
+    });
+
     return (
-      <div className="tile" onClick={this.clickLetter}>
-        {this.props.letter}
+      <div className={tileClasses} onClick={this.clickLetter}>
+        {this.props.tile ? this.props.tile.letter : null}
       </div>
-    )
+    );
   }
 });

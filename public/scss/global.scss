@@ -1,3 +1,5 @@
+@import 'variables';
+
 *, *:before, *:after {
   box-sizing: border-box;
 }
@@ -19,8 +21,8 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
-  width: 600px;
-  height: 600px;
+  width: $cellsize * $cellnum;
+  height: $cellsize * $cellnum;
   outline: 1rem solid #FFF;
   background: #FFF;
 }
@@ -34,9 +36,13 @@ body {
 
 .tile {
   position: relative;
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
+  width: $cellsize;
+  height: $cellsize;
+  line-height: $cellsize;
   text-align: center;
   background: #CCC;
+
+  &.active {
+    background: #FFCA45;
+  }
 }

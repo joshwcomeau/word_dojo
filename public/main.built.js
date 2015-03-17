@@ -695,10 +695,11 @@ module.exports = {
       size: size
     });
   },
-  clickLetter: function(letter) {    
+  clickLetter: function(column, row) {    
     AppDispatcher.dispatch({
       type:   AppConstants.CLICK_LETTER,
-      letter: letter
+      column: column,
+      row:    row
     });
   }
 };
@@ -734,8 +735,9 @@ module.exports = React.createClass({displayName: "exports",
   },  
 
   render: function() {
+    console.log(this.state.board);
     var tileColumnNodes = _.times(10, function(index) {
-      return (React.createElement(TileColumn, {key: index, tiles: this.state.board[index]}));
+      return (React.createElement(TileColumn, {key: index, column: index, tiles: this.state.board[index]}));
     }, this);
 
     return (
@@ -749,38 +751,48 @@ module.exports = React.createClass({displayName: "exports",
 },{"../../libs/react/react-with-addons":15,"../actions/GameActions":7,"../stores/GameStore":13,"./TileColumn.jsx":10}],9:[function(require,module,exports){
 var React       = require('../../libs/react/react-with-addons');
 var GameActions = require('../actions/GameActions');
+var GameStore   = require('../stores/GameStore');
+
+function getState(col, row) {
+    console.log('getting state of ', col, row, GameStore.isActiveTile(col, row))
+    return {
+      active: GameStore.isActiveTile(col, row)
+    }
+}
+
 
 module.exports  = React.createClass({displayName: "exports",
-  clickLetter: function(e) {
-    var letter = e.target.textContent;
-    console.log("letter is", letter);
-
-    GameActions.clickLetter(letter);
+  getInitialState: function() {
+    return getState(this.props.column, this.props.row);
   },
 
-  // getInitialState: function() {
-  //   return {
-  //     letter: LetterStore.getNewLetter()
-  //   };
-  // },
+  clickLetter: function(e) {
+    // Send the event along to our store.
+    GameActions.clickLetter(this.props.column, this.props.row);
+  },
 
   render: function() {
+    var tileClasses = React.addons.classSet({
+      "tile": true,
+      "active": this.state.active
+    });
+
     return (
-      React.createElement("div", {className: "tile", onClick: this.clickLetter}, 
-        this.props.letter
+      React.createElement("div", {className: tileClasses, onClick: this.clickLetter}, 
+        this.props.tile ? this.props.tile.letter : null
       )
-    )
+    );
   }
 });
 
-},{"../../libs/react/react-with-addons":15,"../actions/GameActions":7}],10:[function(require,module,exports){
+},{"../../libs/react/react-with-addons":15,"../actions/GameActions":7,"../stores/GameStore":13}],10:[function(require,module,exports){
 var React = require('../../libs/react/react-with-addons');
 var Tile  = require('./Tile.jsx');
 
 module.exports = React.createClass({displayName: "exports",
   render: function() {
     var tileNodes = _.times(10, function(index) {
-      return (React.createElement(Tile, {key: index, letter: this.props.tiles[index]}));
+      return (React.createElement(Tile, {key: index, column: this.props.column, row: index, tile: this.props.tiles[index]}));
     }, this);
 
     return (
@@ -824,18 +836,51 @@ var AppConstants    = require('../constants/AppConstants');
 var LetterGenerator = require('../utils/LetterGenerator'); 
     
 
-var _score = 0;
-var _moves = 0;
-var _time  = 0;
+var _score  = 0;
+var _moves  = 0;
+var _time   = 0;
 
-var _board = [];
+var _board  = [];
+var _active = 0; // Holds the number of active cells
+var _currentWord = "";
 
 function resetBoard(size) {
-  var column, letter;
+  var column, letters, letter;
 
   _.times(size, function(column_index) {
-    _board.push( LetterGenerator.generate(size) );
+    column = [];
+    letters = LetterGenerator.generate(size)
+    letters.forEach(function(l) {
+      column.push({
+        letter: l,
+        active: false
+      });
+    });
+
+    _board.push(column);
+    
   })
+}
+
+function clickTile(column, row) {
+  if ( _board[column][row].active ) {
+    // Deactivate this letter
+    _board[column][row].active = false;
+    _active--;
+    _currentWord = _currentWord.substr(0, _currentWord.length-1);
+  } else {
+    _board[column][row].active = true;
+    _active++;
+    _currentWord += _board[column][row].letter;
+
+    // Figure out if we need to de-activate any other cells (if we've clicked a new area)
+    if ( _active > 1 ) {
+
+    }
+
+  }
+
+  console.log(_currentWord);
 }
 
 var GameStore = _.extend({}, EventEmitter.prototype, {
@@ -844,6 +889,10 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
   getMoves: function() { return _moves; },
   getTime:  function() { return _time;  },
   getBoard: function() { return _board; },
+
+  isActiveTile: function(column, row) {
+    return _board[column][row] ? _board[column][row].active : false;
+  },
 
   // Default store methods
   emitChange: function() { this.emit('change'); },
@@ -860,6 +909,7 @@ AppDispatcher.register(function(action) {
       break;
 
     case AppConstants.CLICK_LETTER:
+      clickTile(action.column, action.row);
       GameStore.emitChange();
       break;
 

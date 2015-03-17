@@ -6,18 +6,51 @@ var AppConstants    = require('../constants/AppConstants');
 var LetterGenerator = require('../utils/LetterGenerator'); 
     
 
-var _score = 0;
-var _moves = 0;
-var _time  = 0;
+var _score  = 0;
+var _moves  = 0;
+var _time   = 0;
 
-var _board = [];
+var _board  = [];
+var _active = 0; // Holds the number of active cells
+var _currentWord = "";
 
 function resetBoard(size) {
-  var column, letter;
+  var column, letters, letter;
 
   _.times(size, function(column_index) {
-    _board.push( LetterGenerator.generate(size) );
+    column = [];
+    letters = LetterGenerator.generate(size)
+    letters.forEach(function(l) {
+      column.push({
+        letter: l,
+        active: false
+      });
+    });
+
+    _board.push(column);
+    
   })
+}
+
+function clickTile(column, row) {
+  if ( _board[column][row].active ) {
+    // Deactivate this letter
+    _board[column][row].active = false;
+    _active--;
+    _currentWord = _currentWord.substr(0, _currentWord.length-1);
+  } else {
+    _board[column][row].active = true;
+    _active++;
+    _currentWord += _board[column][row].letter;
+
+    // Figure out if we need to de-activate any other cells (if we've clicked a new area)
+    if ( _active > 1 ) {
+
+    }
+
+  }
+
+  console.log(_currentWord);
 }
 
 var GameStore = _.extend({}, EventEmitter.prototype, {
@@ -26,6 +59,10 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
   getMoves: function() { return _moves; },
   getTime:  function() { return _time;  },
   getBoard: function() { return _board; },
+
+  isActiveTile: function(column, row) {
+    return _board[column][row] ? _board[column][row].active : false;
+  },
 
   // Default store methods
   emitChange: function() { this.emit('change'); },
@@ -42,6 +79,7 @@ AppDispatcher.register(function(action) {
       break;
 
     case AppConstants.CLICK_LETTER:
+      clickTile(action.column, action.row);
       GameStore.emitChange();
       break;
 
