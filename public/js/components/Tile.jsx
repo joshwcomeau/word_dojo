@@ -21,15 +21,19 @@ module.exports  = React.createClass({
     GameActions.clickLetter(this.props.column, this.props.row);
   },
 
+  shouldComponentUpdate: function() {
+    return false;
+  },
+
   render: function() {
     console.log("Rendering tile!")
     var tileClasses = classNames('tile', {
-      "active": this.props.tile.active
+      "active": this.props.tile.get("active")
     });
 
     return (
       <div className={tileClasses} onClick={this.clickLetter}>
-        {this.props.tile.letter}
+        {this.props.tile.get("letter")}
       </div>
     );
   }

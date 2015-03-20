@@ -1,6 +1,7 @@
 // GameStore.
 // Deals with scorekeeping, move validations, timing, etc.
 var EventEmitter    = require('events').EventEmitter;
+var Immutable       = require('immutable');
 var AppDispatcher   = require('../core/AppDispatcher'); 
 var AppConstants    = require('../constants/AppConstants'); 
 var LetterGenerator = require('../utils/LetterGenerator'); 
@@ -21,10 +22,12 @@ function resetBoard(size) {
     column = [];
     letters = LetterGenerator.generate(size)
     letters.forEach(function(l) {
-      column.push({
+      var letter = Immutable.Map({
         letter: l,
         active: false
       });
+      
+      column.push(letter);
     });
 
     _board.push(column);
@@ -33,15 +36,18 @@ function resetBoard(size) {
 }
 
 function clickTile(column, row) {
-  if ( _board[column][row].active ) {
-    // Deactivate this letter
-    _board[column][row].active = false;
+  if ( _board[column][row].get("active") ) {
+    console.log(_board[column][row]);
+    _board[column][row] = _board[column][row].set('active', true);
+    console.log(_board[column][row]);
     _active--;
     _currentWord = _currentWord.substr(0, _currentWord.length-1);
   } else {
-    _board[column][row].active = true;
+    console.log(_board[column][row]);
+    _board[column][row] = _board[column][row].set('active', false);
+    console.log(_board[column][row]);
     _active++;
-    _currentWord += _board[column][row].letter;
+    _currentWord += _board[column][row].get("letter");
 
     // Figure out if we need to de-activate any other cells (if we've clicked a new area)
     if ( _active > 1 ) {
