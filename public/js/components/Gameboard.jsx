@@ -10,6 +10,7 @@ function getState() {
 }
 
 module.exports = React.createClass({
+
   getInitialState: function() {
     return getState();
   },
@@ -28,6 +29,7 @@ module.exports = React.createClass({
   },  
 
   render: function() {
+    console.log("Render board")
     var tileColumnNodes = _.times(10, function(index) {
       return (<TileColumn key={index} column={index} tiles={this.state.board[index]} />);
     }, this);

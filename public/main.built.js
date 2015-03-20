@@ -745,10 +745,11 @@ var GameStore   = require('../stores/GameStore');
 function getState() {
   return {
     board: GameStore.getBoard()
-  }
+  };
 }
 
 module.exports = React.createClass({displayName: "exports",
+
   getInitialState: function() {
     return getState();
   },
@@ -767,6 +768,7 @@ module.exports = React.createClass({displayName: "exports",
   },  
 
   render: function() {
+    console.log("Render board")
     var tileColumnNodes = _.times(10, function(index) {
       return (React.createElement(TileColumn, {key: index, column: index, tiles: this.state.board[index]}));
     }, this);
@@ -775,7 +777,7 @@ module.exports = React.createClass({displayName: "exports",
       React.createElement("div", {className: "gameboard"}, 
            tileColumnNodes 
       )
-    )
+    );
   }
 });
 
@@ -786,7 +788,6 @@ var GameStore   = require('../stores/GameStore');
 var classNames  = require('classNames');
 
 function getState(col, row) {
-  console.log("getting state")
   return {
     active: GameStore.isActiveTile(col, row)
   }
@@ -794,6 +795,7 @@ function getState(col, row) {
 
 
 module.exports  = React.createClass({displayName: "exports",
+  
   getInitialState: function() {
     return getState(this.props.column, this.props.row);
   },
@@ -804,7 +806,7 @@ module.exports  = React.createClass({displayName: "exports",
   },
 
   render: function() {
-    console.log("Rendering tile!")
+    console.log("Rendering tile!");
     var tileClasses = classNames('tile', {
       "active": this.props.tile.active
     });
@@ -897,11 +899,19 @@ function resetBoard(size) {
 function clickTile(column, row) {
   if ( _board[column][row].active ) {
     // Deactivate this letter
-    _board[column][row].active = false;
+    _board[column][row] = {
+      letter: _board[column][row].letter,
+      active: false
+    };
+
     _active--;
     _currentWord = _currentWord.substr(0, _currentWord.length-1);
   } else {
-    _board[column][row].active = true;
+    _board[column][row] = {
+      letter: _board[column][row].letter,
+      active: true
+    };
+    
     _active++;
     _currentWord += _board[column][row].letter;
 
@@ -923,7 +933,6 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
   getBoard: function() { return _board; },
 
   isActiveTile: function(column, row) {
-    console.log("active tile: ", _board[column][row]);
     return _board[column][row] ? _board[column][row].active : false;
   },
 

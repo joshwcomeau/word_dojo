@@ -35,11 +35,19 @@ function resetBoard(size) {
 function clickTile(column, row) {
   if ( _board[column][row].active ) {
     // Deactivate this letter
-    _board[column][row].active = false;
+    _board[column][row] = {
+      letter: _board[column][row].letter,
+      active: false
+    };
+
     _active--;
     _currentWord = _currentWord.substr(0, _currentWord.length-1);
   } else {
-    _board[column][row].active = true;
+    _board[column][row] = {
+      letter: _board[column][row].letter,
+      active: true
+    };
+    
     _active++;
     _currentWord += _board[column][row].letter;
 
@@ -61,7 +69,6 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
   getBoard: function() { return _board; },
 
   isActiveTile: function(column, row) {
-    console.log("active tile: ", _board[column][row]);
     return _board[column][row] ? _board[column][row].active : false;
   },
 

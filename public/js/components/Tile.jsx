@@ -4,7 +4,6 @@ var GameStore   = require('../stores/GameStore');
 var classNames  = require('classNames');
 
 function getState(col, row) {
-  console.log("getting state")
   return {
     active: GameStore.isActiveTile(col, row)
   }
@@ -12,6 +11,7 @@ function getState(col, row) {
 
 
 module.exports  = React.createClass({
+  
   getInitialState: function() {
     return getState(this.props.column, this.props.row);
   },
@@ -22,7 +22,7 @@ module.exports  = React.createClass({
   },
 
   render: function() {
-    console.log("Rendering tile!")
+    console.log("Rendering tile!");
     var tileClasses = classNames('tile', {
       "active": this.props.tile.active
     });
