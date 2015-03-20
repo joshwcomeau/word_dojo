@@ -7,7 +7,7 @@ console.log(document.getElementById("app"));
 React.render(React.createElement(Gameboard, null), document.getElementById("app"));
 
 
-},{"../libs/react/react-with-addons":15,"./components/Gameboard.jsx":8}],2:[function(require,module,exports){
+},{"../libs/react/react-with-addons":16,"./components/Gameboard.jsx":9}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -311,6 +311,38 @@ function isUndefined(arg) {
 }
 
 },{}],3:[function(require,module,exports){
+function classNames() {
+	var classes = '';
+	var arg;
+
+	for (var i = 0; i < arguments.length; i++) {
+		arg = arguments[i];
+		if (!arg) {
+			continue;
+		}
+
+		if ('string' === typeof arg || 'number' === typeof arg) {
+			classes += ' ' + arg;
+		} else if (Object.prototype.toString.call(arg) === '[object Array]') {
+			classes += ' ' + classNames.apply(null, arg);
+		} else if ('object' === typeof arg) {
+			for (var key in arg) {
+				if (!arg.hasOwnProperty(key) || !arg[key]) {
+					continue;
+				}
+				classes += ' ' + key;
+			}
+		}
+	}
+	return classes.substr(1);
+}
+
+// safely export classNames in case the script is included directly on a page
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports = classNames;
+}
+
+},{}],4:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -322,7 +354,7 @@ function isUndefined(arg) {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":4}],4:[function(require,module,exports){
+},{"./lib/Dispatcher":5}],5:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -574,7 +606,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":5}],5:[function(require,module,exports){
+},{"./invariant":6}],6:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -629,7 +661,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * Copyright 2013-2014 Facebook, Inc.
  *
@@ -684,7 +716,7 @@ var keyMirror = function(obj) {
 
 module.exports = keyMirror;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var AppDispatcher = require('../core/AppDispatcher');
 var AppConstants  = require('../constants/AppConstants');
 
@@ -704,7 +736,7 @@ module.exports = {
   }
 };
 
-},{"../constants/AppConstants":11,"../core/AppDispatcher":12}],8:[function(require,module,exports){
+},{"../constants/AppConstants":12,"../core/AppDispatcher":13}],9:[function(require,module,exports){
 var React       = require('../../libs/react/react-with-addons');
 var TileColumn  = require('./TileColumn.jsx');
 var GameActions = require('../actions/GameActions');
@@ -735,7 +767,6 @@ module.exports = React.createClass({displayName: "exports",
   },  
 
   render: function() {
-    console.log(this.state.board);
     var tileColumnNodes = _.times(10, function(index) {
       return (React.createElement(TileColumn, {key: index, column: index, tiles: this.state.board[index]}));
     }, this);
@@ -748,16 +779,17 @@ module.exports = React.createClass({displayName: "exports",
   }
 });
 
-},{"../../libs/react/react-with-addons":15,"../actions/GameActions":7,"../stores/GameStore":13,"./TileColumn.jsx":10}],9:[function(require,module,exports){
+},{"../../libs/react/react-with-addons":16,"../actions/GameActions":8,"../stores/GameStore":14,"./TileColumn.jsx":11}],10:[function(require,module,exports){
 var React       = require('../../libs/react/react-with-addons');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
+var classNames  = require('classNames');
 
 function getState(col, row) {
-    console.log('getting state of ', col, row, GameStore.isActiveTile(col, row))
-    return {
-      active: GameStore.isActiveTile(col, row)
-    }
+  console.log("getting state")
+  return {
+    active: GameStore.isActiveTile(col, row)
+  }
 }
 
 
@@ -772,20 +804,20 @@ module.exports  = React.createClass({displayName: "exports",
   },
 
   render: function() {
-    var tileClasses = React.addons.classSet({
-      "tile": true,
-      "active": this.state.active
+    console.log("Rendering tile!")
+    var tileClasses = classNames('tile', {
+      "active": this.props.tile.active
     });
 
     return (
       React.createElement("div", {className: tileClasses, onClick: this.clickLetter}, 
-        this.props.tile ? this.props.tile.letter : null
+        this.props.tile.letter
       )
     );
   }
 });
 
-},{"../../libs/react/react-with-addons":15,"../actions/GameActions":7,"../stores/GameStore":13}],10:[function(require,module,exports){
+},{"../../libs/react/react-with-addons":16,"../actions/GameActions":8,"../stores/GameStore":14,"classNames":3}],11:[function(require,module,exports){
 var React = require('../../libs/react/react-with-addons');
 var Tile  = require('./Tile.jsx');
 
@@ -803,7 +835,7 @@ module.exports = React.createClass({displayName: "exports",
   }
 });
 
-},{"../../libs/react/react-with-addons":15,"./Tile.jsx":9}],11:[function(require,module,exports){
+},{"../../libs/react/react-with-addons":16,"./Tile.jsx":10}],12:[function(require,module,exports){
 var keyMirror = require('keymirror');
 
 module.exports = keyMirror({
@@ -811,7 +843,7 @@ module.exports = keyMirror({
   CLICK_LETTER: null
 });
 
-},{"keymirror":6}],12:[function(require,module,exports){
+},{"keymirror":7}],13:[function(require,module,exports){
 var flux = require('flux');
 
 var AppDispatcher = new flux.Dispatcher();
@@ -827,7 +859,7 @@ module.exports = AppDispatcher;
 
 
 
-},{"flux":3}],13:[function(require,module,exports){
+},{"flux":4}],14:[function(require,module,exports){
 // GameStore.
 // Deals with scorekeeping, move validations, timing, etc.
 var EventEmitter    = require('events').EventEmitter;
@@ -891,6 +923,7 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
   getBoard: function() { return _board; },
 
   isActiveTile: function(column, row) {
+    console.log("active tile: ", _board[column][row]);
     return _board[column][row] ? _board[column][row].active : false;
   },
 
@@ -921,7 +954,7 @@ AppDispatcher.register(function(action) {
 module.exports = GameStore;
 
 
-},{"../constants/AppConstants":11,"../core/AppDispatcher":12,"../utils/LetterGenerator":14,"events":2}],14:[function(require,module,exports){
+},{"../constants/AppConstants":12,"../core/AppDispatcher":13,"../utils/LetterGenerator":15,"events":2}],15:[function(require,module,exports){
 // Letter Generator.
 // Randomly selects appropriate letters. Also handles special letters (when I get there).
 
@@ -954,7 +987,7 @@ var letterGenerator = {
 module.exports = letterGenerator;
 
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 (function (global){
 /**
  * React (with addons) v0.13.0

@@ -61,6 +61,7 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
   getBoard: function() { return _board; },
 
   isActiveTile: function(column, row) {
+    console.log("active tile: ", _board[column][row]);
     return _board[column][row] ? _board[column][row].active : false;
   },
 

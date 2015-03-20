@@ -6,7 +6,7 @@ var GameStore   = require('../stores/GameStore');
 function getState() {
   return {
     board: GameStore.getBoard()
-  }
+  };
 }
 
 module.exports = React.createClass({
@@ -28,7 +28,6 @@ module.exports = React.createClass({
   },  
 
   render: function() {
-    console.log(this.state.board);
     var tileColumnNodes = _.times(10, function(index) {
       return (<TileColumn key={index} column={index} tiles={this.state.board[index]} />);
     }, this);
@@ -37,6 +36,6 @@ module.exports = React.createClass({
       <div className="gameboard">
           { tileColumnNodes }
       </div>
-    )
+    );
   }
 });

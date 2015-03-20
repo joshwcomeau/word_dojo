@@ -1,12 +1,13 @@
 var React       = require('../../libs/react/react-with-addons');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
+var classNames  = require('classNames');
 
 function getState(col, row) {
-    console.log('getting state of ', col, row, GameStore.isActiveTile(col, row))
-    return {
-      active: GameStore.isActiveTile(col, row)
-    }
+  console.log("getting state")
+  return {
+    active: GameStore.isActiveTile(col, row)
+  }
 }
 
 
@@ -21,14 +22,14 @@ module.exports  = React.createClass({
   },
 
   render: function() {
-    var tileClasses = React.addons.classSet({
-      "tile": true,
-      "active": this.state.active
+    console.log("Rendering tile!")
+    var tileClasses = classNames('tile', {
+      "active": this.props.tile.active
     });
 
     return (
       <div className={tileClasses} onClick={this.clickLetter}>
-        {this.props.tile ? this.props.tile.letter : null}
+        {this.props.tile.letter}
       </div>
     );
   }
