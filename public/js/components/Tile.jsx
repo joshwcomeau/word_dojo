@@ -11,6 +11,7 @@ function getState(col, row) {
 
 
 module.exports  = React.createClass({
+
   
   getInitialState: function() {
     return getState(this.props.column, this.props.row);
@@ -22,7 +23,7 @@ module.exports  = React.createClass({
   },
 
   render: function() {
-    console.log("Rendering tile!");
+    console.log("Render");
     var tileClasses = classNames('tile', {
       "active": this.props.tile.active
     });

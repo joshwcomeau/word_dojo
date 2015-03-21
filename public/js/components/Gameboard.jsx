@@ -9,13 +9,15 @@ function getState() {
   };
 }
 
+var _gridSize = 10;
+
 module.exports = React.createClass({
 
   getInitialState: function() {
     return getState();
   },
   componentWillMount: function() {
-    GameActions.initialize(10);
+    GameActions.initialize(_gridSize);
   },
 
   componentDidMount: function() {
@@ -29,9 +31,8 @@ module.exports = React.createClass({
   },  
 
   render: function() {
-    console.log("Render board")
-    var tileColumnNodes = _.times(10, function(index) {
-      return (<TileColumn key={index} column={index} tiles={this.state.board[index]} />);
+    var tileColumnNodes = _.times(_gridSize, function(index) {
+      return (<TileColumn key={index} column={index} size={_gridSize} tiles={this.state.board[index]} />);
     }, this);
 
     return (
