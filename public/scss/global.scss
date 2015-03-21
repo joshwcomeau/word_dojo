@@ -21,28 +21,64 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
-  width: $cellsize * $cellnum;
-  height: $cellsize * $cellnum;
+  width: $cellwidth * $cellnum;
+  height: $cellwidth * $cellnum;
   outline: 1rem solid #FFF;
   background: #FFF;
 }
 
 .tile-column {
   position: relative;
-  display: inline-block;
-  width: 10%;
+  float: left;
+  width: 93px;
   height: 100%;
+
+  &:nth-child(odd) {
+    margin-top: $cellheight/2 + 2;
+  }
 }
 
 .tile {
   position: relative;
-  width: $cellsize;
-  height: $cellsize;
-  line-height: $cellsize;
+  width: $cellwidth;
+  height: $cellheight;
+  line-height: $cellheight;
+  margin-left: $cellwidth / 2;
+  margin-bottom: $cellspacing;
   text-align: center;
-  background: #CCC;
+  background: $color-tile;
+
+  &:before {
+    content: " ";
+    position: absolute;
+    width: 0; 
+    height: 0;
+    left: -30px;
+    top: 0;
+    border-top: 52px solid transparent;
+    border-bottom: 52px solid transparent;
+    border-right: 30px solid $color-tile;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    right: -30px;
+    top: 0;
+    border-left: 30px solid $color-tile;
+    border-top: 52px solid transparent;
+    border-bottom: 52px solid transparent;
+  }
 
   &.active {
-    background: #FFCA45;
+    background: $color-active-tile;
+
+    &:before {
+      border-right: 30px solid $color-active-tile;
+    }
+    &:after {
+      border-left: 30px solid $color-active-tile;
+    }
   }
 }

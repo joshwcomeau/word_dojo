@@ -748,13 +748,15 @@ function getState() {
   };
 }
 
+var _gridSize = 10;
+
 module.exports = React.createClass({displayName: "exports",
 
   getInitialState: function() {
     return getState();
   },
   componentWillMount: function() {
-    GameActions.initialize(10);
+    GameActions.initialize(_gridSize);
   },
 
   componentDidMount: function() {
@@ -768,9 +770,8 @@ module.exports = React.createClass({displayName: "exports",
   },  
 
   render: function() {
-    console.log("Render board")
-    var tileColumnNodes = _.times(10, function(index) {
-      return (React.createElement(TileColumn, {key: index, column: index, tiles: this.state.board[index]}));
+    var tileColumnNodes = _.times(_gridSize, function(index) {
+      return (React.createElement(TileColumn, {key: index, column: index, size: _gridSize, tiles: this.state.board[index]}));
     }, this);
 
     return (
@@ -795,6 +796,7 @@ function getState(col, row) {
 
 
 module.exports  = React.createClass({displayName: "exports",
+
   
   getInitialState: function() {
     return getState(this.props.column, this.props.row);
@@ -806,7 +808,7 @@ module.exports  = React.createClass({displayName: "exports",
   },
 
   render: function() {
-    console.log("Rendering tile!");
+    console.log("Render");
     var tileClasses = classNames('tile', {
       "active": this.props.tile.active
     });
@@ -825,7 +827,7 @@ var Tile  = require('./Tile.jsx');
 
 module.exports = React.createClass({displayName: "exports",
   render: function() {
-    var tileNodes = _.times(10, function(index) {
+    var tileNodes = _.times(this.props.size, function(index) {
       return (React.createElement(Tile, {key: index, column: this.props.column, row: index, tile: this.props.tiles[index]}));
     }, this);
 
@@ -897,10 +899,12 @@ function resetBoard(size) {
 }
 
 function clickTile(column, row) {
-  if ( _board[column][row].active ) {
+  var clickedTile = _board[column][row];
+  
+  if ( clickedTile.active ) {
     // Deactivate this letter
     _board[column][row] = {
-      letter: _board[column][row].letter,
+      letter: clickedTile.letter,
       active: false
     };
 
@@ -908,7 +912,7 @@ function clickTile(column, row) {
     _currentWord = _currentWord.substr(0, _currentWord.length-1);
   } else {
     _board[column][row] = {
-      letter: _board[column][row].letter,
+      letter: clickedTile.letter,
       active: true
     };
     
@@ -917,6 +921,7 @@ function clickTile(column, row) {
 
     // Figure out if we need to de-activate any other cells (if we've clicked a new area)
     if ( _active > 1 ) {
+
 
     }
 
