@@ -1,4 +1,4 @@
-var React       = require('../../libs/react/react-with-addons');
+var React       = require('react');
 var TileColumn  = require('./TileColumn.jsx');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
@@ -9,7 +9,8 @@ function getState() {
   };
 }
 
-var _gridSize = 10;
+var _colCount = 12,
+    _rowCount = 7;
 
 module.exports = React.createClass({
 
@@ -17,7 +18,7 @@ module.exports = React.createClass({
     return getState();
   },
   componentWillMount: function() {
-    GameActions.initialize(_gridSize);
+    GameActions.initialize(_colCount, _rowCount);
   },
 
   componentDidMount: function() {
@@ -31,8 +32,8 @@ module.exports = React.createClass({
   },  
 
   render: function() {
-    var tileColumnNodes = _.times(_gridSize, function(index) {
-      return (<TileColumn key={index} column={index} size={_gridSize} tiles={this.state.board[index]} />);
+    var tileColumnNodes = _.times(_colCount, function(index) {
+      return (<TileColumn key={index} column={index} size={_rowCount} tiles={this.state.board[index]} />);
     }, this);
 
     return (

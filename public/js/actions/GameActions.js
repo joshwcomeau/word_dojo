@@ -2,10 +2,11 @@ var AppDispatcher = require('../core/AppDispatcher');
 var AppConstants  = require('../constants/AppConstants');
 
 module.exports = {
-  initialize: function(size) {    
+  initialize: function(col, row) {    
     AppDispatcher.dispatch({
       type: AppConstants.INITIALIZE,
-      size: size
+      col: col,
+      row: row
     });
   },
   clickLetter: function(column, row) {    

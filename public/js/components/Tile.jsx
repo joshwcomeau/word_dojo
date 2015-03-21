@@ -1,4 +1,4 @@
-var React       = require('../../libs/react/react-with-addons');
+var React       = require('react');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
 var classNames  = require('classNames');

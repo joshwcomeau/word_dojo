@@ -1,4 +1,4 @@
-var React       = require('../libs/react/react-with-addons');
+var React       = require('react');
 var Gameboard   = require('./components/Gameboard.jsx');
 
 console.log(document.getElementById("app"));

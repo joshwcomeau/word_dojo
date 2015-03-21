@@ -1,4 +1,4 @@
-var React = require('../../libs/react/react-with-addons');
+var React = require('react');
 var Tile  = require('./Tile.jsx');
 
 module.exports = React.createClass({

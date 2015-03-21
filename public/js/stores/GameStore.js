@@ -11,15 +11,15 @@ var _moves  = 0;
 var _time   = 0;
 
 var _board  = [];
-var _active = 0; // Holds the number of active cells
+var _active = []; // Holds currently-activated cells
 var _currentWord = "";
 
-function resetBoard(size) {
+function resetBoard(col, row) {
   var column, letters, letter;
 
-  _.times(size, function(column_index) {
+  _.times(col, function(column_index) {
     column = [];
-    letters = LetterGenerator.generate(size)
+    letters = LetterGenerator.generate(row)
     letters.forEach(function(l) {
       column.push({
         letter: l,
@@ -32,9 +32,14 @@ function resetBoard(size) {
   })
 }
 
+function isConnectedToWord(clickedTile) {
+  // Ok, the idea here is first we need to check if two given tiles are touching or not.
+  // THen we need to iterate through all active tiles, and see 
+}
+
 function clickTile(column, row) {
   var clickedTile = _board[column][row];
-  
+
   if ( clickedTile.active ) {
     // Deactivate this letter
     _board[column][row] = {
@@ -85,7 +90,7 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
   switch (action.type) {
     case AppConstants.INITIALIZE:
-      resetBoard(action.size);
+      resetBoard(action.col, action.row);
       GameStore.emitChange();
       break;
 

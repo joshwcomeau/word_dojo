@@ -21,8 +21,8 @@ body {
   right: 0;
   bottom: 0;
   margin: auto;
-  width: $cellwidth * $cellnum;
-  height: $cellwidth * $cellnum;
+  width: ($cell-width * 1.5 + $cell-spacing) * $cell-col-num + 16px;
+  height: ($cell-height + $cell-spacing) * $cell-row-num + ($cell-height/2);
   outline: 1rem solid #FFF;
   background: #FFF;
 }
@@ -30,21 +30,21 @@ body {
 .tile-column {
   position: relative;
   float: left;
-  width: 93px;
+  width: 73px;
   height: 100%;
 
   &:nth-child(odd) {
-    margin-top: $cellheight/2 + 2;
+    margin-top: $cell-height/2 + 2;
   }
 }
 
 .tile {
   position: relative;
-  width: $cellwidth;
-  height: $cellheight;
-  line-height: $cellheight;
-  margin-left: $cellwidth / 2;
-  margin-bottom: $cellspacing;
+  width: $cell-width;
+  height: $cell-height;
+  line-height: $cell-height;
+  margin-left: $cell-width / 2;
+  margin-bottom: $cell-spacing;
   text-align: center;
   background: $color-tile;
 
@@ -53,32 +53,32 @@ body {
     position: absolute;
     width: 0; 
     height: 0;
-    left: -30px;
+    left: -$cell-width / 2;
     top: 0;
-    border-top: 52px solid transparent;
-    border-bottom: 52px solid transparent;
-    border-right: 30px solid $color-tile;
+    border-top: ($cell-height/2) solid transparent;
+    border-bottom: ($cell-height/2) solid transparent;
+    border-right: ($cell-width / 2) solid $color-tile;
   }
 
   &:after {
     content: "";
     position: absolute;
     width: 0;
-    right: -30px;
+    right: -$cell-width / 2;
     top: 0;
-    border-left: 30px solid $color-tile;
-    border-top: 52px solid transparent;
-    border-bottom: 52px solid transparent;
+    border-left: ($cell-width / 2) solid $color-tile;
+    border-top: ($cell-height/2) solid transparent;
+    border-bottom: ($cell-height/2) solid transparent;
   }
 
   &.active {
     background: $color-active-tile;
 
     &:before {
-      border-right: 30px solid $color-active-tile;
+      border-right: ($cell-width / 2) solid $color-active-tile;
     }
     &:after {
-      border-left: 30px solid $color-active-tile;
+      border-left: ($cell-width / 2) solid $color-active-tile;
     }
   }
 }
