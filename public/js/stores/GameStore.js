@@ -49,38 +49,46 @@ function clickTile(column, row) {
   var neighbors = Neighbors.getNeighbors(column, row, _board);
 
   if ( clickedTile.active ) {
-    // Deactivate this letter
+
     var newTile = {
       letter: clickedTile.letter,
       active: false
     };
+
     _board[column][row] = newTile;
 
     // Remove it from our _active array
-    console.log("removing index",_active.indexOf(clickedTile) )
     _active.splice(_active.indexOf(clickedTile), 1);
 
     // Remove the letter from our _currentWord
     _currentWord = _currentWord.substr(0, _currentWord.length-1);
+
   } else {
+
+    // The tile we just clicked is not active. We need to activate it,
+    // but we also need to DEactivate any active tiles that aren't neighboring this one.
+    if ( _active.length > 1 ) {
+      if ( _.intersection(neighbors, _active).length === 0 ) {
+        console.log(neighbors, "and", clickedTile)
+        console.log("This click is not touching any neighbors");
+      } else {
+        console.log("This is a neighboring click!")
+      }
+
+    }
+
     var newTile = {
       letter: clickedTile.letter,
       active: true
     };
+
     _board[column][row] = newTile;
     
     _active.push(newTile);
     _currentWord += _board[column][row].letter;
 
-    // Figure out if we need to de-activate any other cells (if we've clicked a new area)
-    if ( _active.length > 1 ) {
-
-
-    }
 
   }
-
-  console.log(_active);
 }
 
 var GameStore = _.extend({}, EventEmitter.prototype, {
