@@ -63,6 +63,13 @@ gulp.task('webserver', function() {
 });
 
 gulp.task('watch', ['styles', 'browserify'], function() {
-  gulp.watch(['public/js/components/**/*.jsx'], ['browserify']);
+  gulp.watch([
+    'public/js/components/**/*.jsx', 
+    'public/js/actions/**/*.js', 
+    'public/js/constants/**/*.js', 
+    'public/js/stores/**/*.js', 
+    'public/js/utils/**/*.js',
+    'public/js/main.js'
+  ], ['browserify']);
   gulp.watch('public/**/*.scss', ['styles']);
 });
