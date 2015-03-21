@@ -51,18 +51,25 @@ function clickTile(column, row) {
 
   if ( clickedTile.active ) {
 
-    var newTile = {
-      letter: clickedTile.letter,
-      active: false
-    };
+    // If we're in the process of building a word, we're only allowed to deactivate
+    // the last letter. If we click on any other active tile, we reset the board.
+    if ( clickedTile !== _active[_active.length-1] ) {
+      setAllToInactive();
+    } else {
+      var newTile = {
+        letter: clickedTile.letter,
+        active: false
+      };
 
-    _board[column][row] = newTile;
+      _board[column][row] = newTile;
 
-    // Remove it from our _active array
-    _active.splice(_active.indexOf(clickedTile), 1);
+      // Remove it from our _active array
+      _active.splice(_active.indexOf(clickedTile), 1);
 
-    // Remove the letter from our _currentWord
-    _currentWord = _currentWord.substr(0, _currentWord.length-1);
+      // Remove the letter from our _currentWord
+      _currentWord = _currentWord.substr(0, _currentWord.length-1);
+    }
+
 
   } else {
 
