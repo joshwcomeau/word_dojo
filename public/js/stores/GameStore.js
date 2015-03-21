@@ -48,38 +48,39 @@ function clickTile(column, row) {
 
   var neighbors = Neighbors.getNeighbors(column, row, _board);
 
-  console.log(neighbors);
-
   if ( clickedTile.active ) {
     // Deactivate this letter
-    _board[column][row] = {
+    var newTile = {
       letter: clickedTile.letter,
       active: false
     };
+    _board[column][row] = newTile;
 
     // Remove it from our _active array
+    console.log("removing index",_active.indexOf(clickedTile) )
     _active.splice(_active.indexOf(clickedTile), 1);
 
     // Remove the letter from our _currentWord
     _currentWord = _currentWord.substr(0, _currentWord.length-1);
   } else {
-    _board[column][row] = {
+    var newTile = {
       letter: clickedTile.letter,
       active: true
     };
+    _board[column][row] = newTile;
     
-    _active++;
+    _active.push(newTile);
     _currentWord += _board[column][row].letter;
 
     // Figure out if we need to de-activate any other cells (if we've clicked a new area)
-    if ( _active > 1 ) {
+    if ( _active.length > 1 ) {
 
 
     }
 
   }
 
-  console.log(_currentWord);
+  console.log(_active);
 }
 
 var GameStore = _.extend({}, EventEmitter.prototype, {
