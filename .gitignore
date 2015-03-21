@@ -1,3 +1,8 @@
 # libraries
-bower_components
+public/libs
 node_modules
+
+# Built CSS and JS
+public/main.built.js
+public/style.css
+public/style.css.map
