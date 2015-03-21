@@ -12,24 +12,33 @@ var Neighbors = {
   },
 
   getNeighbors: function(col, row, board) {
-    // If it's odd
+    var neighbors = [];
 
-    return col & 1 ? 
-    [         // Odd column neighbors
-      board[col+1][row+1],
-      board[col+1][row],
-      board[col][row-1],
-      board[col-1][row],
-      board[col-1][row+1],
-      board[col][row+1]
-    ] : [     // Even column neighbors
-      board[col+1][row],
-      board[col+1][row-1],
-      board[col][row-1],
-      board[col-1][row-1],
-      board[col-1][row],
-      board[col][row+1]
-    ];
+    if ( col & 1 ) {
+      if ( board[col+1] ) {
+        neighbors.push(board[col+1][row+1]);
+        neighbors.push(board[col+1][row]);
+      }
+      if ( board[col-1] ) {
+        neighbors.push(board[col-1][row+1]);
+        neighbors.push(board[col-1][row]);
+      }
+    } else {
+      if ( board[col+1] ) {
+        neighbors.push(board[col+1][row-1]);
+        neighbors.push(board[col+1][row]);
+      }
+      if ( board[col-1] ) {
+        neighbors.push(board[col-1][row-1]);
+        neighbors.push(board[col-1][row]);
+      }
+    }
+
+    neighbors.push(board[col][row+1]);
+    neighbors.push(board[col][row-1]);
+
+    // remove undefined values
+    return _.filter(neighbors, function(n) { return n });
   }
 };
 

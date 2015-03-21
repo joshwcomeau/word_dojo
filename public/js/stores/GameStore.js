@@ -36,7 +36,7 @@ function resetBoard(col, row) {
 
 function setAllToInactive() {
   _active = [];
-  
+
   _board.forEach(function(column) {
     column.forEach(function(tile) {
       tile.active = false;
@@ -46,8 +46,8 @@ function setAllToInactive() {
 
 function clickTile(column, row) {
   var clickedTile = _board[column][row];
+  var neighbors   = Neighbors.getNeighbors(column, row, _board);
 
-  var neighbors = Neighbors.getNeighbors(column, row, _board);
 
   if ( clickedTile.active ) {
 
@@ -68,15 +68,8 @@ function clickTile(column, row) {
 
     // The tile we just clicked is not active. We need to activate it,
     // but we also need to DEactivate any active tiles that aren't neighboring this one.
-    if ( _active.length ) {
-      if ( _.intersection(neighbors, _active).length === 0 ) {
-        console.log(neighbors, "and", clickedTile)
-        console.log("This click is not touching any neighbors");
-        setAllToInactive();
-      } else {
-        console.log("This is a neighboring click!")
-      }
-
+    if ( _active.length && _.intersection(neighbors, _active).length === 0 ) {
+      setAllToInactive();
     }
 
     var newTile = {
