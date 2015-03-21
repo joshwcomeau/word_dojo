@@ -33,10 +33,12 @@ function resetBoard(size) {
 }
 
 function clickTile(column, row) {
-  if ( _board[column][row].active ) {
+  var clickedTile = _board[column][row];
+  
+  if ( clickedTile.active ) {
     // Deactivate this letter
     _board[column][row] = {
-      letter: _board[column][row].letter,
+      letter: clickedTile.letter,
       active: false
     };
 
@@ -44,7 +46,7 @@ function clickTile(column, row) {
     _currentWord = _currentWord.substr(0, _currentWord.length-1);
   } else {
     _board[column][row] = {
-      letter: _board[column][row].letter,
+      letter: clickedTile.letter,
       active: true
     };
     
@@ -53,6 +55,7 @@ function clickTile(column, row) {
 
     // Figure out if we need to de-activate any other cells (if we've clicked a new area)
     if ( _active > 1 ) {
+
 
     }
 
