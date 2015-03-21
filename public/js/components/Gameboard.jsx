@@ -9,7 +9,7 @@ function getState() {
   };
 }
 
-var _colCount = 12,
+var _colCount = 11,
     _rowCount = 7;
 
 module.exports = React.createClass({

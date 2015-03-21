@@ -1,9 +1,11 @@
 // GameStore.
 // Deals with scorekeeping, move validations, timing, etc.
-var EventEmitter    = require('events').EventEmitter;
-var AppDispatcher   = require('../core/AppDispatcher'); 
-var AppConstants    = require('../constants/AppConstants'); 
-var LetterGenerator = require('../utils/LetterGenerator'); 
+var EventEmitter        = require('events').EventEmitter;
+var AppDispatcher       = require('../core/AppDispatcher'); 
+var AppConstants        = require('../constants/AppConstants'); 
+var LetterGenerator     = require('../utils/LetterGenerator'); 
+var CoordinateConverter = require('../utils/CoordinateConverter'); 
+var Neighbors           = require('../utils/Neighbors'); 
     
 
 var _score  = 0;
@@ -32,6 +34,10 @@ function resetBoard(col, row) {
   })
 }
 
+function areNeighbors(t1, t2) {
+
+}
+
 function isConnectedToWord(clickedTile) {
   // Ok, the idea here is first we need to check if two given tiles are touching or not.
   // THen we need to iterate through all active tiles, and see 
@@ -40,6 +46,10 @@ function isConnectedToWord(clickedTile) {
 function clickTile(column, row) {
   var clickedTile = _board[column][row];
 
+  var neighbors = Neighbors.getNeighbors(column, row, _board);
+
+  console.log(neighbors);
+
   if ( clickedTile.active ) {
     // Deactivate this letter
     _board[column][row] = {
@@ -47,7 +57,10 @@ function clickTile(column, row) {
       active: false
     };
 
-    _active--;
+    // Remove it from our _active array
+    _active.splice(_active.indexOf(clickedTile), 1);
+
+    // Remove the letter from our _currentWord
     _currentWord = _currentWord.substr(0, _currentWord.length-1);
   } else {
     _board[column][row] = {

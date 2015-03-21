@@ -33,7 +33,7 @@ body {
   width: 73px;
   height: 100%;
 
-  &:nth-child(odd) {
+  &:nth-child(even) {
     margin-top: $cell-height/2 + 2;
   }
 }

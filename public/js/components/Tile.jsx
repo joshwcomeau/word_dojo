@@ -23,7 +23,6 @@ module.exports  = React.createClass({
   },
 
   render: function() {
-    console.log("Render");
     var tileClasses = classNames('tile', {
       "active": this.props.tile.active
     });
