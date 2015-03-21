@@ -34,13 +34,14 @@ function resetBoard(col, row) {
   })
 }
 
-function areNeighbors(t1, t2) {
-
-}
-
-function isConnectedToWord(clickedTile) {
-  // Ok, the idea here is first we need to check if two given tiles are touching or not.
-  // THen we need to iterate through all active tiles, and see 
+function setAllToInactive() {
+  _active = [];
+  
+  _board.forEach(function(column) {
+    column.forEach(function(tile) {
+      tile.active = false;
+    });
+  });
 }
 
 function clickTile(column, row) {
@@ -67,10 +68,11 @@ function clickTile(column, row) {
 
     // The tile we just clicked is not active. We need to activate it,
     // but we also need to DEactivate any active tiles that aren't neighboring this one.
-    if ( _active.length > 1 ) {
+    if ( _active.length ) {
       if ( _.intersection(neighbors, _active).length === 0 ) {
         console.log(neighbors, "and", clickedTile)
         console.log("This click is not touching any neighbors");
+        setAllToInactive();
       } else {
         console.log("This is a neighboring click!")
       }
