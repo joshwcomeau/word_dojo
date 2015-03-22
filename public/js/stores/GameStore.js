@@ -40,9 +40,13 @@ function setAllToInactive() {
   _active = [];
   _currentWord = "";
 
-  _board.forEach(function(column) {
-    column.forEach(function(tile) {
-      tile.active = false;
+  _board.forEach(function(column, columnIndex) {
+    column.forEach(function(tile, rowIndex) {
+      
+      _board[columnIndex][rowIndex] = {
+        letter: tile.letter,
+        active: false
+      };
     });
   });
 }
@@ -113,10 +117,10 @@ function evaluateWord() {
         }
       });
     });
+  } 
 
-    setAllToInactive();
-
-  }
+  // Whether the word was valid or not, we need to deactivate all the letters.
+  setAllToInactive();
 }
 
 var GameStore = _.extend({}, EventEmitter.prototype, {
