@@ -1,5 +1,6 @@
 var React       = require('react/addons');
 var ClassNames  = require('classnames');
+var Timer       = require('./Timer.jsx');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
 
@@ -35,9 +36,10 @@ module.exports = React.createClass({
 
     return (
       <div className="sidebar">        
+        <Timer />
         <button className={buttonClasses} disabled={!this.state.submitEnabled} onClick={this.submit}>Submit</button>
 
       </div>
-    )
+    );
   }
 });
