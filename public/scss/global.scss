@@ -49,6 +49,7 @@ body {
   margin-bottom: $cell-spacing;
   text-align: center;
   background: $color-tile;
+  transition: 1s;
 
   &:before {
     content: " ";
@@ -60,6 +61,7 @@ body {
     border-top: ($cell-height/2) solid transparent;
     border-bottom: ($cell-height/2) solid transparent;
     border-right: ($cell-width / 2) solid $color-tile;
+    transition: 1s;
   }
 
   &:after {
@@ -71,10 +73,12 @@ body {
     border-left: ($cell-width / 2) solid $color-tile;
     border-top: ($cell-height/2) solid transparent;
     border-bottom: ($cell-height/2) solid transparent;
+    transition: 1s;
   }
 
   &.active {
     background: $color-active-tile;
+    font-size: 1.25em;
 
     &:before {
       border-right: ($cell-width / 2) solid $color-active-tile;
@@ -87,19 +91,18 @@ body {
 
 .current-word {
   position: absolute;
-  bottom: -$bottom-row-height - $board-outline;
+  bottom: -$bottom-row-height - $board-outline * 2;
   height: $bottom-row-height;
   line-height: $bottom-row-height;
   width: 50%;
   left: 0;
-  border-top: 1px solid #AAA;
   background: $color-gameboard;
   text-align: center;
 }
 
 .submit-button {
   position: absolute;
-  bottom: -$bottom-row-height - $board-outline;
+  bottom: -$bottom-row-height - $board-outline * 2;
   height: $bottom-row-height;
   width: 50%;
   right: 0;
