@@ -6,6 +6,7 @@ var AppConstants        = require('../constants/AppConstants');
 var LetterGenerator     = require('../utils/LetterGenerator'); 
 var CoordinateConverter = require('../utils/CoordinateConverter'); 
 var Neighbors           = require('../utils/Neighbors'); 
+var WordChecker         = require('../utils/WordChecker');
     
 
 var _score  = 0;
@@ -15,6 +16,7 @@ var _time   = 0;
 var _board  = [];
 var _active = []; // Holds currently-activated cells
 var _currentWord = "";
+
 
 function resetBoard(col, row) {
   var column, letters, letter;
@@ -36,6 +38,7 @@ function resetBoard(col, row) {
 
 function setAllToInactive() {
   _active = [];
+  _currentWord = "";
 
   _board.forEach(function(column) {
     column.forEach(function(tile) {
@@ -89,16 +92,18 @@ function clickTile(column, row) {
     _active.push(newTile);
     _currentWord += _board[column][row].letter;
 
-
   }
+  var validWord = WordChecker.validateWord(_currentWord);
+  console.log("word is valid:", validWord);
 }
 
 var GameStore = _.extend({}, EventEmitter.prototype, {
   // Getters
-  getScore: function() { return _score; },
-  getMoves: function() { return _moves; },
-  getTime:  function() { return _time;  },
-  getBoard: function() { return _board; },
+  getScore: function() { return _score;       },
+  getMoves: function() { return _moves;       },
+  getTime:  function() { return _time;        },
+  getBoard: function() { return _board;       },
+  getWord:  function() { return _currentWord; },
 
   isActiveTile: function(column, row) {
     return _board[column][row] ? _board[column][row].active : false;

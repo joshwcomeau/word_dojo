@@ -23,7 +23,7 @@ body {
   margin: auto;
   width: ($cell-width * 1.5 + $cell-spacing) * $cell-col-num + 16px;
   height: ($cell-height + $cell-spacing) * $cell-row-num + ($cell-height/2);
-  outline: 1rem solid #FFF;
+  outline: $board-outline solid #FFF;
   background: #FFF;
 }
 
@@ -80,5 +80,29 @@ body {
     &:after {
       border-left: ($cell-width / 2) solid $color-active-tile;
     }
+  }
+}
+
+.current-word {
+  position: absolute;
+  bottom: -$bottom-row-height - $board-outline;
+  height: $bottom-row-height;
+  line-height: $bottom-row-height;
+  width: 50%;
+  left: 0;
+  border-top: 1px solid #AAA;
+  background: #FFF;
+  text-align: center;
+}
+
+.submit-button {
+  position: absolute;
+  bottom: -$bottom-row-height - $board-outline;
+  height: $bottom-row-height;
+  width: 50%;
+  right: 0;
+
+  &.enabled {
+    background: #00F;
   }
 }

@@ -11,8 +11,6 @@ function getState(col, row) {
 
 
 module.exports  = React.createClass({
-
-  
   getInitialState: function() {
     return getState(this.props.column, this.props.row);
   },
