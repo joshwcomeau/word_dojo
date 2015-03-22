@@ -8,10 +8,12 @@ html {
   height: 100%;
 }
 
+
 body {
   min-height: 100%;
   position: relative;
-  background: #EEE;
+  background: $color-background;
+  font-family: 'Lato', sans-serif !important; 
 }
 
 .gameboard {
@@ -23,8 +25,8 @@ body {
   margin: auto;
   width: ($cell-width * 1.5 + $cell-spacing) * $cell-col-num + 16px;
   height: ($cell-height + $cell-spacing) * $cell-row-num + ($cell-height/2);
-  outline: $board-outline solid #FFF;
-  background: #FFF;
+  outline: $board-outline solid $color-gameboard;
+  background: $color-gameboard;
 }
 
 .tile-column {
@@ -91,7 +93,7 @@ body {
   width: 50%;
   left: 0;
   border-top: 1px solid #AAA;
-  background: #FFF;
+  background: $color-gameboard;
   text-align: center;
 }
 
@@ -101,8 +103,10 @@ body {
   height: $bottom-row-height;
   width: 50%;
   right: 0;
+  font-family: 'Lato', sans-serif;
+  background: $color-dgreen;
 
   &.enabled {
-    background: #00F;
+    background: $color-lgreen;
   }
 }

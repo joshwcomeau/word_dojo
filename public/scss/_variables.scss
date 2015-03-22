@@ -8,5 +8,24 @@ $cell-col-num:  11;
 $board-outline: 16px;
 $bottom-row-height: 60px;
 
-$color-tile: #CCC;
-$color-active-tile: #FFCA45;
+
+
+// Private variables
+$color-offwhite:  #FFFFE2;
+$color-dgreen:    #00585F;
+$color-lgreen:    #009393;
+$color-lbeige:    #FFFCC4;
+$color-dbeige:    #F0EDBB;
+$color-orange:    #FF3800;
+$color-beige:     #FEFAEF;
+$color-sand:      #E0C387;
+$color-grey:      #737574;
+$color-mint:      #9CBAAE;
+
+
+$color-background:  #666;
+$color-gameboard:   #BBB;
+$color-tile:        #EEE;
+$color-active-tile: $color-orange;
+$color-btn:         $color-dgreen;
+$color-btn-active:  $color-lgreen;
