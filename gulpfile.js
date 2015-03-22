@@ -36,8 +36,7 @@ gulp.task('styles', function() {
       .pipe(minifycss())
       .pipe(concat('style.css'))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('public/'))
-    .pipe(livereload())
+    .pipe(gulp.dest('public/'));
 });
 
 
@@ -55,7 +54,7 @@ gulp.task('browserify', function(){
 gulp.task('webserver', function() {
   gulp.src('public')
     .pipe(webserver({
-      livereload: true,
+      livereload: false,
       directoryListing: false,
       open: true,
       fallback: 'index.html'
