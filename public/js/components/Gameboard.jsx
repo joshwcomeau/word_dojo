@@ -35,7 +35,7 @@ module.exports = React.createClass({
   },  
 
   submit: function() {
-    // GameActions.evaluateWord();
+    GameActions.evaluateWord();
   },
 
   render: function() {

@@ -51,7 +51,6 @@ function clickTile(column, row) {
   var clickedTile = _board[column][row];
   var neighbors   = Neighbors.getNeighbors(column, row, _board);
 
-
   if ( clickedTile.active ) {
 
     // If we're in the process of building a word, we're only allowed to deactivate
@@ -93,8 +92,31 @@ function clickTile(column, row) {
     _currentWord += _board[column][row].letter;
 
   }
+}
+
+function evaluateWord() {
   var validWord = WordChecker.validateWord(_currentWord);
-  console.log("word is valid:", validWord);
+
+  if ( validWord ) {
+    var newLetter;
+
+    // Remove all active letters from _board, replace them with new letters
+    _board.forEach(function(column) {
+      column.forEach(function(tile) {
+        if ( tile.active ) {
+          newLetter = {
+            letter: LetterGenerator.generate(1)[0],
+            active: false
+          };
+          column.splice(column.indexOf(tile), 1);
+          column.unshift(newLetter);
+        }
+      });
+    });
+
+    setAllToInactive();
+
+  }
 }
 
 var GameStore = _.extend({}, EventEmitter.prototype, {
@@ -127,6 +149,13 @@ AppDispatcher.register(function(action) {
       clickTile(action.column, action.row);
       GameStore.emitChange();
       break;
+    
+    case AppConstants.EVALUATE_WORD:
+      evaluateWord();
+      GameStore.emitChange();
+      break;
+
+
 
   }
 

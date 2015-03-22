@@ -15,5 +15,10 @@ module.exports = {
       column: column,
       row:    row
     });
+  },
+  evaluateWord: function() {
+    AppDispatcher.dispatch({
+      type: AppConstants.EVALUATE_WORD
+    });
   }
 };
