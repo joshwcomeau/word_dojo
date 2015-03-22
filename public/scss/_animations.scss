@@ -1,0 +1,33 @@
+@import 'variables';
+
+
+@keyframes invalid-selection {
+  0%   { background: $color-red; }
+  100% { background: $color-tile; }
+}
+
+@keyframes invalid-selection-before {
+  
+  0%   { border-right: ($cell-width / 2) solid $color-red; }
+  100% { border-right: ($cell-width / 2) solid $color-tile }
+}
+
+@keyframes invalid-selection-after {
+  0%   { border-left: ($cell-width / 2) solid $color-red; }
+  100% { border-left: ($cell-width / 2) solid $color-tile }
+}
+
+@keyframes valid-selection {
+  0%   { background: $color-lgreen; }
+  100% { background: $color-tile; }
+}
+
+@keyframes valid-selection-before {
+  0%   { border-right: ($cell-width / 2) solid $color-lgreen; }
+  100% { border-right: ($cell-width / 2) solid $color-tile }
+}
+
+@keyframes valid-selection-after {
+  0%   { border-left: ($cell-width / 2) solid $color-lgreen; }
+  100% { border-left: ($cell-width / 2) solid $color-tile }
+}

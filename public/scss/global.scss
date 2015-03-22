@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'animations';
 
 *, *:before, *:after {
   box-sizing: border-box;
@@ -85,24 +86,46 @@ body {
       border-left: ($cell-width / 2) solid $color-active-tile;
     }
   }
-}
-.tile-animation-enter {
-  transition: 0s;
-  height: $cell-height;
-}
 
-.tile-animation-enter-active {
-  height: $cell-height;
-}
-.tile-animation-leave {
-  transition: height 0.5s ease-in;
-  height: $cell-height;
-  margin-bottom: 0;
-}
+  &.deactive {
+    animation-name: invalid-selection;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: none;
+    
+    &:before, &:after {
+      animation-duration: 0.1s;
+      animation-timing-function: ease-in;
+      animation-fill-mode: none;
+    }
 
-.tile-animation-leave-active {
-  height: 0;
-  margin-bottom: 0;
+    &:before {
+      animation-name: invalid-selection-before;      
+    }
+    &:after {
+      animation-name: invalid-selection-after;      
+    }
+  }
+
+  &.accepted {
+    animation-name: valid-selection;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: none;
+    
+    &:before, &:after {
+      animation-duration: 0.1s;
+      animation-timing-function: ease-in;
+      animation-fill-mode: none;
+    }
+
+    &:before {
+      animation-name: valid-selection-before;      
+    }
+    &:after {
+      animation-name: valid-selection-after;      
+    }
+  }  
 }
 
 .current-word {
