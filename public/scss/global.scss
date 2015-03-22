@@ -27,6 +27,7 @@ body {
   height: ($cell-height + $cell-spacing) * $cell-row-num + ($cell-height/2);
   outline: $board-outline solid $color-gameboard;
   background: $color-gameboard;
+
 }
 
 .tile-column {
@@ -49,7 +50,6 @@ body {
   margin-bottom: $cell-spacing;
   text-align: center;
   background: $color-tile;
-  transition: 1s;
 
   &:before {
     content: " ";
@@ -61,7 +61,6 @@ body {
     border-top: ($cell-height/2) solid transparent;
     border-bottom: ($cell-height/2) solid transparent;
     border-right: ($cell-width / 2) solid $color-tile;
-    transition: 1s;
   }
 
   &:after {
@@ -73,7 +72,6 @@ body {
     border-left: ($cell-width / 2) solid $color-tile;
     border-top: ($cell-height/2) solid transparent;
     border-bottom: ($cell-height/2) solid transparent;
-    transition: 1s;
   }
 
   &.active {
@@ -87,6 +85,24 @@ body {
       border-left: ($cell-width / 2) solid $color-active-tile;
     }
   }
+}
+.tile-animation-enter {
+  transition: 0s;
+  height: $cell-height;
+}
+
+.tile-animation-enter-active {
+  height: $cell-height;
+}
+.tile-animation-leave {
+  transition: height 0.5s ease-in;
+  height: $cell-height;
+  margin-bottom: 0;
+}
+
+.tile-animation-leave-active {
+  height: 0;
+  margin-bottom: 0;
 }
 
 .current-word {
