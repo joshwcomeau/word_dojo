@@ -1,5 +1,4 @@
 var React       = require('react');
-var ClassNames  = require('classnames');
 var TileColumn  = require('./TileColumn.jsx');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
@@ -8,7 +7,6 @@ function getState() {
   return {
     board: GameStore.getBoard(),
     word:  GameStore.getWord(),
-    submitEnabled: GameStore.getWord().length >= 3
   };
 }
 
@@ -34,28 +32,18 @@ module.exports = React.createClass({
     this.setState(getState());
   },  
 
-  submit: function() {
-    GameActions.evaluateWord();
-  },
+
 
   render: function() {
-    console.log(GameStore.getWord().length > 3);
-
     var tileColumnNodes = _.times(_colCount, function(index) {
       return (<TileColumn key={index} column={index} size={_rowCount} tiles={this.state.board[index]} />);
     }, this);
 
-    var buttonClasses = ClassNames("submit-button", {
-      'enabled': this.state.submitEnabled
-    });
-
     return (
-      <div className="gameboard">
-        { tileColumnNodes }
-        <div className="current-word">
-          {this.state.word}
+      <div className="gameboard-wrapper">
+        <div className="gameboard">
+          { tileColumnNodes }
         </div>
-        <button className={buttonClasses} disabled={!this.state.submitEnabled} onClick={this.submit}>Submit</button>
       </div>
         
     );

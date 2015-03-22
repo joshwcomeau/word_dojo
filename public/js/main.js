@@ -1,6 +1,6 @@
 var React       = require('react');
-var Gameboard   = require('./components/Gameboard.jsx');
+var App   = require('./components/App.jsx');
 
 console.log(document.getElementById("app"));
 
-React.render(<Gameboard />, document.body);
+React.render(<App />, document.body);
