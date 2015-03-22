@@ -78,6 +78,10 @@ body {
   &.active {
     background: $color-active-tile;
     font-size: 1.25em;
+    animation-name: click-letter;
+    animation-duration: 0.2s;
+
+    animation-fill-mode: none;
 
     &:before {
       border-right: ($cell-width / 2) solid $color-active-tile;
@@ -147,6 +151,8 @@ body {
   right: 0;
   font-family: 'Lato', sans-serif;
   background: $color-dgreen;
+  border: 0;
+  border-radius: 4px;
 
   &.enabled {
     background: $color-lgreen;

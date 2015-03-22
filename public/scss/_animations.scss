@@ -1,6 +1,12 @@
 @import 'variables';
 
 
+
+@keyframes click-letter {
+  0%   { font-size: 1.75em; }
+  100% { font-size: 1.25em; }
+}
+
 @keyframes invalid-selection {
   0%   { background: $color-red; }
   100% { background: $color-tile; }

@@ -14,20 +14,17 @@ module.exports  = React.createClass({
     }
   },
   componentWillReceiveProps: function(nextProps) {
-    var moveState = GameStore.getRecentMove();
 
     // If we're de-activating this tile
     if ( this.props.tile.active === true && nextProps.tile.active === false ) {
-      if ( moveState === MoveConstants.WORD_REJECTED ) {
-        // We submitted a phony word, and now we want to display red letters
-        this.setState({
-          justDeactivated: true
-        });
-      } else if ( moveState === MoveConstants.WORD_ACCEPTED ) {
-        // The word was accepted, and now we have new tiles in their place.
-        this.setState({
-          justAccepted: true
-        })
+      switch (GameStore.getRecentMove()) {
+        case MoveConstants.WORD_REJECTED:
+          this.setState({ justDeactivated:  true });
+          break;
+
+        case MoveConstants.WORD_ACCEPTED:
+          this.setState({ justAccepted:     true });
+          break;
       }
       
     } else {
