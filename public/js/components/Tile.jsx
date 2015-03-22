@@ -1,7 +1,8 @@
-var React       = require('react');
-var GameActions = require('../actions/GameActions');
-var GameStore   = require('../stores/GameStore');
-var classNames  = require('classNames');
+var React         = require('react');
+var GameActions   = require('../actions/GameActions');
+var MoveConstants = require('../constants/MoveConstants');
+var GameStore     = require('../stores/GameStore');
+var classNames    = require('classNames');
 
 
 module.exports  = React.createClass({
@@ -13,17 +14,16 @@ module.exports  = React.createClass({
     }
   },
   componentWillReceiveProps: function(nextProps) {
-    // console.log("next:", nextProps.tile.active);
-    // console.log("current:", this.props.tile.active)
+    var moveState = GameStore.getRecentMove();
+
     // If we're de-activating this tile
     if ( this.props.tile.active === true && nextProps.tile.active === false ) {
-      if ( nextProps.tile.letter === this.props.tile.letter ) {
-        // The letter was just deactivated, by a wrong word submission or a click on
-        // non-neighboring tiles.
+      if ( moveState === MoveConstants.WORD_REJECTED ) {
+        // We submitted a phony word, and now we want to display red letters
         this.setState({
           justDeactivated: true
         });
-      } else {
+      } else if ( moveState === MoveConstants.WORD_ACCEPTED ) {
         // The word was accepted, and now we have new tiles in their place.
         this.setState({
           justAccepted: true
