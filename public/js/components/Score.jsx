@@ -1,20 +1,15 @@
 var React       = require('react/addons');
 var ClassNames  = require('classnames');
-var Timer       = require('./Timer.jsx');
-var Score       = require('./Score.jsx');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
 
-function getState() {
-  return {
-    
-  };
-}
 
 
 module.exports = React.createClass({
   getInitialState: function() {
-    return getState();
+    return {
+      score: GameStore.getScore()
+    };
   },
   componentDidMount: function() {
     GameStore.addChangeListener(this._onChange);
@@ -23,16 +18,15 @@ module.exports = React.createClass({
     GameStore.removeChangeListener(this._onChange);
   },
   _onChange: function() {
-    this.setState(getState());
-  },  
+    this.setState({ score: GameStore.getScore() });
+  },
 
   render: function() {
     return (
-      <div className="sidebar">        
-        <Timer />
-        <Score />
+      <div className="score">        
+        {this.state.score}
 
       </div>
-    );
+    )
   }
 });

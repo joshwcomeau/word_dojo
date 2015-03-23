@@ -8,6 +8,7 @@ var LetterGenerator     = require('../utils/LetterGenerator');
 var CoordinateConverter = require('../utils/CoordinateConverter'); 
 var Neighbors           = require('../utils/Neighbors'); 
 var WordChecker         = require('../utils/WordChecker');
+var ScoreCalculator     = require('../utils/ScoreCalculator');
     
 
 var _score            = 0;
@@ -135,6 +136,9 @@ function evaluateWord() {
   if ( validWord ) {
     var newLetter;
 
+    // Add it to score
+    _score += ScoreCalculator.calculate(_currentWord)
+
     // Remove all active letters from _board, replace them with new letters
     _board.forEach(function(column) {
       column.forEach(function(tile) {
@@ -188,6 +192,8 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
 });
 
 AppDispatcher.register(function(action) {
+  console.log(_currentWord);
+  
   switch (action.type) {
     case AppConstants.INITIALIZE:
       resetBoard(action.col, action.row);
