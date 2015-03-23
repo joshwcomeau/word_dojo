@@ -3,6 +3,7 @@
   "dependencies": {
     "font-awesome":     "latest",
     "flux":             "latest",
+    "lodash":           "latest",
     "jquery":           "latest"
   }
 }
