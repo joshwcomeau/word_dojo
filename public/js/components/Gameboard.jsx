@@ -41,6 +41,7 @@ module.exports = React.createClass({
     if (!(e.which === 32 || e.which === 13)) return false;
 
     if ( this.state.over ) {
+      GameActions.initialize(_colCount, _rowCount);
       // restart game
     } else {
       if ( this.state.word.length >= 3 ) {

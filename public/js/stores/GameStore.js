@@ -10,22 +10,33 @@ var Neighbors           = require('../utils/Neighbors');
 var WordChecker         = require('../utils/WordChecker');
     
 
-var _score  = 0;
-var _moves  = 0;
-var _time   = 0;
+var _score            = 0;
+var _moves            = 0;
+var _time             = 0;
+var _board            = [];
+var _active           = []; 
+var _currentWord      = "";
+var _recentMoveState  = null;
 
-var _board  = [];
-var _active = []; // Holds currently-activated cells
-var _currentWord = "";
+var _gameActive       = false;
+var _gameOver         = false;
 
-var _recentMoveState = null;
-var _gameLength = 3;
-
-var _gameOver = false;
+var _gameLength = 120;
 
 function resetBoard(col, row) {
   var column, letters, letter;
 
+  if ( _gameOver ) {
+    _score            = 0;
+    _moves            = 0;
+    _time             = 0;
+    _board            = [];
+    _active           = []; 
+    _currentWord      = "";
+    _recentMoveState  = null;
+    _gameOver         = false;
+  }
+  
   _.times(col, function(column_index) {
     column = [];
     letters = LetterGenerator.generate(row)
@@ -38,7 +49,7 @@ function resetBoard(col, row) {
 
     _board.push(column);
     
-  })
+  });
 }
 
 function setAllToInactive() {
@@ -56,9 +67,18 @@ function setAllToInactive() {
   });
 }
 
+function startGame() {
+  _gameActive = true;
+  _gameOver   = false;
+}
+
 function clickTile(column, row) {
   var clickedTile = _board[column][row];
   var neighbors   = Neighbors.getNeighbors(column, row, _board);
+
+  if ( !_gameActive ) {
+    startGame();
+  }
 
   if ( clickedTile.active ) {
 
@@ -154,6 +174,7 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
 
   getRecentMove:  function() { return _recentMoveState; },
   getGameOver:    function() { return _gameOver; },
+  getGameActive:  function() { return _gameActive; },
 
   isActiveTile: function(column, row) {
     return _board[column][row] ? _board[column][row].active : false;

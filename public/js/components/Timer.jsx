@@ -9,8 +9,9 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       timeRemaining: GameStore.getLength(),
-      gameStarted: false,
-      gameLength: GameStore.getLength()
+      gameStarted: GameStore.getGameActive(),
+      gameLength: GameStore.getLength(),
+      timerRunning: false
     };
   },
   componentDidMount: function() {
@@ -20,14 +21,19 @@ module.exports = React.createClass({
     GameStore.removeChangeListener(this._onChange);
   },
   _onChange: function() {
-    // Start the timer
-    if ( !this.state.gameStarted ) {
-      this.setState({gameStarted: true});
+    // Start or restart the timer
+    if ( !this.state.timerRunning && GameStore.getGameActive() ) {
+      this.setState({
+        timeRemaining: GameStore.getLength(),
+        gameStarted: GameStore.getGameActive(),
+        timerRunning: true 
+      });
       this.startTimer();  
     }
 
     // Cancel the interval if the game is over
     if ( GameStore.getGameOver() ) {
+      this.setState({ timerRunning: false });
       window.clearInterval(interval);
     }
   },
