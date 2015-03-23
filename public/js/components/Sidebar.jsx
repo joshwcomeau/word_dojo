@@ -7,7 +7,7 @@ var GameStore   = require('../stores/GameStore');
 
 function getState() {
   return {
-    
+    words: GameStore.getWords()
   };
 }
 
@@ -27,11 +27,19 @@ module.exports = React.createClass({
   },  
 
   render: function() {
+    console.log(this.state.words);
+    var wordNodes = _.map(this.state.words, function(word) {
+      return (<li className="word">{word}</li>);
+    }, this);
+
     return (
       <div className="sidebar">        
         <Timer />
         <Score />
 
+        <ul classNames="completed-words">
+          {wordNodes}
+        </ul>
       </div>
     );
   }

@@ -17,6 +17,7 @@ var _time             = 0;
 var _board            = [];
 var _active           = []; 
 var _currentWord      = "";
+var _completedWords   = [];
 var _recentMoveState  = null;
 
 var _gameActive       = false;
@@ -34,6 +35,7 @@ function resetBoard(col, row) {
     _board            = [];
     _active           = []; 
     _currentWord      = "";
+    _completedWords   = [];
     _recentMoveState  = null;
     _gameOver         = false;
   }
@@ -138,6 +140,7 @@ function evaluateWord() {
 
     // Add it to score
     _score += ScoreCalculator.calculate(_currentWord)
+    _completedWords.push(_currentWord);
 
     // Remove all active letters from _board, replace them with new letters
     _board.forEach(function(column) {
@@ -169,12 +172,14 @@ function endGame() {
 
 var GameStore = _.extend({}, EventEmitter.prototype, {
   // Getters
-  getScore:   function() { return _score;       },
-  getMoves:   function() { return _moves;       },
-  getTime:    function() { return _time;        },
-  getBoard:   function() { return _board;       },
-  getWord:    function() { return _currentWord; },
-  getLength:  function() { return _gameLength;  },
+  getScore:   function() { return _score;           },
+  getMoves:   function() { return _moves;           },
+  getTime:    function() { return _time;            },
+  getBoard:   function() { return _board;           },
+  getWord:    function() { return _currentWord;     },
+  getWords:   function() { return _completedWords;  },
+  getLength:  function() { return _gameLength;      },
+
 
   getRecentMove:  function() { return _recentMoveState; },
   getGameOver:    function() { return _gameOver; },
