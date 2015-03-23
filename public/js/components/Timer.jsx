@@ -3,19 +3,14 @@ var ClassNames  = require('classnames');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
 
-function getState() {
-  return {
-    timeRemaining: 60,
-    gameStarted: false
-  };
-}
-
+var interval;
 
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      timeRemaining: 60,
-      gameStarted: false
+      timeRemaining: GameStore.getLength(),
+      gameStarted: false,
+      gameLength: GameStore.getLength()
     };
   },
   componentDidMount: function() {
@@ -30,6 +25,11 @@ module.exports = React.createClass({
       this.setState({gameStarted: true});
       this.startTimer();  
     }
+
+    // Cancel the interval if the game is over
+    if ( GameStore.getGameOver() ) {
+      window.clearInterval(interval);
+    }
   },
 
   startTimer: function() {
@@ -37,17 +37,16 @@ module.exports = React.createClass({
     var startTime = new Date().getTime();
     var _this = this;
 
-    window.setInterval(function() {
-      updatedTimeRemaining = (5 - ((new Date().getTime() - startTime) / 1000)).toFixed(2);
+    interval = window.setInterval(function() {
+      updatedTimeRemaining = (_this.state.gameLength - ((new Date().getTime() - startTime) / 1000)).toFixed(2);
 
       if ( updatedTimeRemaining <= 0 ) {
-        // GameActions.TimesUp()
-        _this.setState({timeRemaining: 0});
-        window.clearInterval();
+        GameActions.timesUp();
+        _this.setState({timeRemaining: 0});        
       } else {
         _this.setState({timeRemaining: updatedTimeRemaining});
       }
-    }, 100)
+    }, 75);
   }, 
 
   render: function() {

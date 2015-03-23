@@ -19,7 +19,9 @@ var _active = []; // Holds currently-activated cells
 var _currentWord = "";
 
 var _recentMoveState = null;
+var _gameLength = 3;
 
+var _gameOver = false;
 
 function resetBoard(col, row) {
   var column, letters, letter;
@@ -136,15 +138,21 @@ function evaluateWord() {
   setAllToInactive();
 }
 
+function endGame() {
+  _gameOver = true;
+}
+
 var GameStore = _.extend({}, EventEmitter.prototype, {
   // Getters
-  getScore: function() { return _score;       },
-  getMoves: function() { return _moves;       },
-  getTime:  function() { return _time;        },
-  getBoard: function() { return _board;       },
-  getWord:  function() { return _currentWord; },
+  getScore:   function() { return _score;       },
+  getMoves:   function() { return _moves;       },
+  getTime:    function() { return _time;        },
+  getBoard:   function() { return _board;       },
+  getWord:    function() { return _currentWord; },
+  getLength:  function() { return _gameLength;  },
 
-  getRecentMove: function() { return _recentMoveState; },
+  getRecentMove:  function() { return _recentMoveState; },
+  getGameOver:    function() { return _gameOver; },
 
   isActiveTile: function(column, row) {
     return _board[column][row] ? _board[column][row].active : false;
@@ -174,6 +182,10 @@ AppDispatcher.register(function(action) {
       GameStore.emitChange();
       break;
 
+    case AppConstants.TIME_UP:
+      endGame();
+      GameStore.emitChange();
+      break;
 
 
   }

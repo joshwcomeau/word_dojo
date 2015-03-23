@@ -6,16 +6,12 @@ var GameStore   = require('../stores/GameStore');
 
 function getState() {
   return {
-    submitEnabled: GameStore.getWord().length >= 3
+    
   };
 }
 
 
 module.exports = React.createClass({
-  submit: function() {
-    GameActions.evaluateWord();
-  },
-
   getInitialState: function() {
     return getState();
   },
@@ -30,14 +26,9 @@ module.exports = React.createClass({
   },  
 
   render: function() {
-    var buttonClasses = ClassNames("submit-button", {
-      'enabled': this.state.submitEnabled
-    });
-
     return (
       <div className="sidebar">        
         <Timer />
-        <button className={buttonClasses} disabled={!this.state.submitEnabled} onClick={this.submit}>Submit</button>
 
       </div>
     );

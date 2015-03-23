@@ -1,4 +1,5 @@
 var React       = require('react');
+var ClassNames  = require('classnames');
 var TileColumn  = require('./TileColumn.jsx');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
@@ -7,6 +8,7 @@ function getState() {
   return {
     board: GameStore.getBoard(),
     word:  GameStore.getWord(),
+    over:  GameStore.getGameOver()
   };
 }
 
@@ -24,14 +26,30 @@ module.exports = React.createClass({
 
   componentDidMount: function() {
     GameStore.addChangeListener(this._onChange);
+    window.addEventListener("keypress", this.handleKeypress);
   },
   componentWillUnmount: function() {
     GameStore.removeChangeListener(this._onChange);
+    window.removeEventListener("keypress", this.handleKeypress);
+
   },
   _onChange: function() {
     this.setState(getState());
   },  
 
+  handleKeypress: function(e) {
+    if (!(e.which === 32 || e.which === 13)) return false;
+
+    if ( this.state.over ) {
+      // restart game
+    } else {
+      if ( this.state.word.length >= 3 ) {
+        GameActions.evaluateWord();
+      } else {
+        alert("Words must be at least 3 characters!");
+      }
+    }
+  },
 
 
   render: function() {
@@ -42,6 +60,7 @@ module.exports = React.createClass({
     return (
       <div className="gameboard-wrapper">
         <div className="gameboard">
+          { this.state.over ? (<div className='game-over-cover'></div>) : null }
           { tileColumnNodes }
         </div>
       </div>
