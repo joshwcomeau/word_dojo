@@ -139,6 +139,7 @@ function evaluateWord() {
 }
 
 function endGame() {
+  setAllToInactive();
   _gameOver = true;
 }
 

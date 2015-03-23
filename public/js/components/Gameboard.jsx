@@ -59,8 +59,8 @@ module.exports = React.createClass({
 
     return (
       <div className="gameboard-wrapper">
+        { this.state.over ? (<div className='game-over-cover'></div>) : null }
         <div className="gameboard">
-          { this.state.over ? (<div className='game-over-cover'></div>) : null }
           { tileColumnNodes }
         </div>
       </div>
