@@ -11,6 +11,7 @@ function getState() {
   };
 }
 
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -27,10 +28,10 @@ module.exports = React.createClass({
   },  
 
   render: function() {
-    console.log(this.state.words);
-    var wordNodes = _.map(this.state.words, function(word) {
-      return (<li className="word">{word.word} <span className="word-score">{word.score}</span></li>);
-    }, this);
+    
+    var wordNodes = _.map(this.state.words, function(word, index) {
+      return (<li className="word" key={index}>{word.word} <span className="word-score">{word.score}</span></li>);
+    }, this).slice(-8).reverse();
 
     return (
       <div className="sidebar">        
@@ -38,7 +39,9 @@ module.exports = React.createClass({
         <Score />
 
         <ul className="completed-words">
-          {wordNodes}
+          <ReactCSSTransitionGroup transitionName="side-words">
+            {wordNodes}
+          </ReactCSSTransitionGroup>
         </ul>
       </div>
     );
