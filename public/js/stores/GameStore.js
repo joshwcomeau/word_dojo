@@ -136,11 +136,15 @@ function evaluateWord() {
   var validWord = WordChecker.validateWord(_currentWord);
 
   if ( validWord ) {
-    var newLetter;
+    var newLetter, wordScore;
 
     // Add it to score
-    _score += ScoreCalculator.calculate(_currentWord)
-    _completedWords.push(_currentWord);
+    wordScore = ScoreCalculator.calculate(_currentWord);
+    _score += wordScore;
+    _completedWords.push({
+      word:  _currentWord,
+      score: wordScore
+    });
 
     // Remove all active letters from _board, replace them with new letters
     _board.forEach(function(column) {

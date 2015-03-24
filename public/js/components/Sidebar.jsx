@@ -29,7 +29,7 @@ module.exports = React.createClass({
   render: function() {
     console.log(this.state.words);
     var wordNodes = _.map(this.state.words, function(word) {
-      return (<li className="word">{word}</li>);
+      return (<li className="word">{word.word} <span className="word-score">{word.score}</span></li>);
     }, this);
 
     return (
@@ -37,7 +37,7 @@ module.exports = React.createClass({
         <Timer />
         <Score />
 
-        <ul classNames="completed-words">
+        <ul className="completed-words">
           {wordNodes}
         </ul>
       </div>
