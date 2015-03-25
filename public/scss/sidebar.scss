@@ -1,0 +1,91 @@
+@import 'variables';
+@import 'animations';
+
+// animation classes
+.side-words-enter {
+  height: 1px !important;
+  transition: 0.5s;
+}
+.side-words-enter-active {
+  height: 28px !important;
+}
+.side-words-leave {
+  height: 28px !important;
+  transition: 0.5s;
+}
+.side-words-leave-active {
+  height: 1px !important;
+}
+
+
+.sidebar {
+  position: fixed;
+  width: $sidebar-width;
+  height: 100%;
+  background: rgba(0,0,0,0.1);
+
+  .completed-words {
+    li {
+      padding: 0 1rem;
+      line-height: 28px;
+      overflow: hidden;
+      background: rgba(0,0,0,0.1);
+      color: #FFF;
+      margin-bottom: 1px;
+
+      .word-score {
+        float: right;
+        font-weight: 100;
+        font-size: 0.8em;
+        opacity: 0.8;
+      }
+    }
+  }
+  .timer {
+    position: relative;
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+    background: $color-dgreen;
+    color: #FFF;
+    font-size: 40px;
+  }
+
+  .score {
+    position: relative;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    background: $color-orange;
+    color: #FFF;
+    font-size: 25px;
+  }
+
+}
+
+
+// Deprecated
+.current-word {
+  position: absolute;
+  bottom: -$bottom-row-height - $board-outline * 2;
+  height: $bottom-row-height;
+  line-height: $bottom-row-height;
+  width: 50%;
+  left: 0;
+  background: $color-gameboard;
+  text-align: center;
+}
+.submit-button {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  right: 0;
+  font-family: 'Lato', sans-serif;
+  background: $color-dgreen;
+  border: 0;
+  border-radius: 4px;
+
+  &.enabled {
+    background: $color-lgreen;
+  }
+}
