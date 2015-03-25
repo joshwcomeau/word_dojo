@@ -5,7 +5,8 @@ var GameStore   = require('../stores/GameStore');
 
 function getState() {
   return {
-    scores: []
+    scores: [],
+    name:   GameStore.getPlayerName()
   };
 }
 
@@ -30,6 +31,10 @@ module.exports = React.createClass({
     //     items: this.items
     //   });
     // }.bind(this));
+  },
+
+  submitScore: function() {
+
   },
   render: function() {
     // We need to iterate through our scores and, if our score is higher than one of them, 
@@ -63,7 +68,7 @@ module.exports = React.createClass({
         return (
           <div className="high-score-row" key={index}>
             <span className="rank">{index+1}</span>
-            <span className="name"><input type="text" placeholder="Enter Name_" /></span>
+            <span className="name"><input type="text" placeholder="Enter Name_" defaultValue={this.state.name} /></span>
             <span className="score">{scoreItem.score}</span>
           </div>
         );
@@ -77,7 +82,7 @@ module.exports = React.createClass({
         );  
       }
       
-    });
+    }.bind(this));
 
     return (
       <div className="high-scores-wrapper">

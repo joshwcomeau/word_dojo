@@ -190,6 +190,7 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
   getRecentMove:  function() { return _recentMoveState; },
   getGameOver:    function() { return _gameOver;        },
   getGameActive:  function() { return _gameActive;      },
+  getPlayerName:  function() { return "Joshu";          },
 
   isActiveTile: function(column, row) {
     return _board[column][row] ? _board[column][row].active : false;
