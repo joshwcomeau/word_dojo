@@ -28,12 +28,6 @@ module.exports = React.createClass({
   componentWillMount: function() {
     this.firebaseRef = new Firebase("https://word-dojo.firebaseio.com/scores/");
     this.bindAsArray(this.firebaseRef, "scores");
-    // this.firebaseRef.on("child_added", function(dataSnapshot) {
-    //   this.items.push(dataSnapshot.val());
-    //   this.setState({
-    //     items: this.items
-    //   });
-    // }.bind(this));
   },
 
   componentDidMount: function() {
@@ -52,7 +46,19 @@ module.exports = React.createClass({
   },
 
   submitScore: function() {
-    GameActions.submitHighScore(this.refs.playername.getDOMNode().value);
+    var playerName = this.refs.playername.getDOMNode().value,
+        uniqueId    = Date.now(),
+        newScoreObj = {};
+
+    // Right now, this only updates the _playerName variable in GameStore.
+    GameActions.submitHighScore(playerName);
+
+    this.firebaseRef.push({
+      name:  playerName,
+      score: GameStore.getScore()
+    });
+
+    $(".new-score").hide();
   },
   buildScoresArray: function() {
     var currentScore  = GameStore.getScore(); 
