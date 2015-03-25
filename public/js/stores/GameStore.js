@@ -19,6 +19,7 @@ var _active           = [];
 var _currentWord      = "";
 var _completedWords   = [];
 var _recentMoveState  = null;
+var _playerName       = null;
 
 var _gameActive       = false;
 var _gameOver         = false;
@@ -73,6 +74,10 @@ function setAllToInactive() {
 function startGame() {
   _gameActive = true;
   _gameOver   = false;
+}
+
+function updatePlayerName(name) {
+  _playerName = name;
 }
 
 function clickTile(column, row) {
@@ -190,7 +195,7 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
   getRecentMove:  function() { return _recentMoveState; },
   getGameOver:    function() { return _gameOver;        },
   getGameActive:  function() { return _gameActive;      },
-  getPlayerName:  function() { return "Joshu";          },
+  getPlayerName:  function() { return _playerName;      },
 
   isActiveTile: function(column, row) {
     return _board[column][row] ? _board[column][row].active : false;
@@ -219,6 +224,11 @@ AppDispatcher.register(function(action) {
       evaluateWord();
       GameStore.emitChange();
       break;
+
+    case AppConstants.SUBMIT_HIGH_SCORE:
+      updatePlayerName(action.name);
+      GameStore.emitChange();
+      break;      
 
     case AppConstants.TIME_UP:
       endGame();

@@ -52,7 +52,7 @@ module.exports = React.createClass({
   },
 
   submitScore: function() {
-
+    GameActions.submitHighScore(this.refs.playername.getDOMNode().value);
   },
   buildScoresArray: function() {
     var currentScore  = GameStore.getScore(); 
@@ -90,9 +90,9 @@ module.exports = React.createClass({
         return (
           <div className="high-score-row new-score" key={index}>
             <span className="rank">{index+1}</span>
-            <span className="name"><input type="text" className="name-input" id="name-input" defaultValue={this.state.name} /></span>
+            <span className="name"><input type="text" className="name-input" id="name-input" ref="playername" defaultValue={this.state.name} /></span>
             <span className="score">{scoreItem.score}</span>
-            <button className="submit-score">Submit</button>
+            <button className="submit-score" onClick={this.submitScore}>Submit</button>
           </div>
         );
       } else {
