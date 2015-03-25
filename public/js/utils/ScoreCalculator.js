@@ -14,6 +14,21 @@ var letterValues = {
   Y: 4,  Z: 10
 };
 
+function calculateMultiplier(wordLength) {
+  //// CURRENT VALUES ////
+  // length   |   value //
+  // ---------+-------- //
+  // 3        |      25 //
+  // 4        |      40 //
+  // 5        |      60 //
+  // 6        |      85 //
+  // 7        |     115 //
+  // 8        |     150 //
+  ////////////////////////
+
+  return 1 + (wordLength-1) * wordLength * 2.5;
+}
+
 var ScoreCalculator = {
   calculate: function(word) {
     // First we need to sum up the point value for every letter in the word.
@@ -24,7 +39,7 @@ var ScoreCalculator = {
       return score += letterValues[letter];
     });
 
-    return score;
+    return score * calculateMultiplier(word.length);
   }
 };
 
