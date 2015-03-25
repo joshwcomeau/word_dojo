@@ -10,6 +10,14 @@
   margin-bottom: $cell-spacing;
   text-align: center;
   background: $color-tile;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-tile-hover;
+    &:before { border-right: ($cell-width / 2) solid $color-tile-hover; }
+    &:after  { border-left:  ($cell-width / 2) solid $color-tile-hover; }
+
+  }
 
   &:before {
     content: " ";

@@ -30,4 +30,43 @@
     color: $color-red;
     text-align: center;
   }
+
+  .high-scores-table {
+    position: relative;
+    width: 75%;
+    margin: 1rem auto;
+    overflow: auto;
+  }
+
+  .high-score-row {
+    position: relative;
+    padding: 0 1rem;
+    line-height: 46px;
+    height: 46px;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    color: #FFF;
+    
+
+    span {
+      display: block;
+      float: left;
+
+      &.rank {
+        width: 15%;
+        font-size: 22px;
+        font-weight: 100;
+      }
+      &.name {
+        width: 60%;
+        font-size: 30px;
+
+      }
+      &.score {
+        width: 25%;
+        font-size: 26px;
+        text-align: right;
+      }
+    }
+
+  }
 }

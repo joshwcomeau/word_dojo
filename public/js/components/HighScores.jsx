@@ -31,9 +31,10 @@ module.exports = React.createClass({
   render: function() {
     console.log("HighScore rendered")
     console.log(this.state);
-    var highScoreNodes = this.state.scores.map(function(score) {
+    var highScoreNodes = this.state.scores.map(function(score, index) {
       return (
         <div className="high-score-row">
+          <span className="rank">{index+1}</span>
           <span className="name">{score.name}</span>
           <span className="score">{score.score}</span>
         </div>
@@ -44,7 +45,9 @@ module.exports = React.createClass({
       <div className="high-scores-wrapper">
         <div className="high-scores-container">
           <h2>Game Over</h2>
-          {highScoreNodes}
+          <div className="high-scores-table">
+            {highScoreNodes}
+          </div>
         </div>
       </div>
         
