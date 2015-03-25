@@ -37,48 +37,53 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function() {
+    // Flash the underscore, to emulate an old terminal window.
+    var showingUnderscore = true;
+    interval = window.setInterval(function() {
+      if ( document.getElementById("name-input") ) {
+        document.getElementById("name-input").placeholder = showingUnderscore ? "Enter Name_" : "Enter Name";
+        showingUnderscore = !showingUnderscore;
+      }
+    }, 500); 
+  },
+
+  componentWillUnmount: function() {
+    window.clearTimeout(interval);
   },
 
   submitScore: function() {
 
   },
-  render: function() {
-    // We need to iterate through our scores and, if our score is higher than one of them, 
-    // 'insert' the custom user score holder. Bit messy, but it'll work for a first-pass.
+  buildScoresArray: function() {
+    var currentScore  = GameStore.getScore(); 
 
-    var currentScore    = GameStore.getScore(); 
-    var scoreArray      = this.state.scores.slice(0).sort(function(a, b) { 
+    // Sort it from lowest to highest
+    var scoreArray = this.state.scores.slice(0).sort(function(a, b) { 
       return a.score >= b.score ? 1 : -1
     });
 
     if ( scoreArray.length && currentScore > scoreArray[0].score ) {
-      var newScoreIndex;
+      // Find the index of the first score greater than the user's.
+      var newScoreIndex = _.findIndex(scoreArray, function(scoreItem) {
+        return scoreItem.score > currentScore;
+      })
 
-      scoreArray.forEach(function(scoreItem, index) {
-        if ( scoreItem.score > currentScore && !newScoreIndex) {
-          newScoreIndex = index;
-        }
-      });
-
+      // Shove it in the score array, with a special type so the iterator
+      // knows it's not a regular score item.
       scoreArray.splice(newScoreIndex, 0, {
         type: 'current_user_score',
         name: '',
         score: currentScore
       });
+    } 
 
-    }
+    return scoreArray.reverse();
+  },
 
-    var showingUnderscore = true;
-    console.log("mounted", document.getElementById("name-input"));
-
-    
-    interval = window.setInterval(function() {
-      if ( document.getElementById("name-input") ) {
-        console.log(showingUnderscore);
-        document.getElementById("name-input").placeholder = showingUnderscore ? "Enter Name_" : "Enter Name";
-        showingUnderscore = !showingUnderscore;
-      }
-    }, 500); 
+  render: function() {
+    // We need to iterate through our scores and, if our score is higher than one of them, 
+    // 'insert' the custom user score holder. Bit messy, but it'll work for a first-pass.
+    var scoreArray      = this.buildScoresArray();
 
     var highScoreNodes  = scoreArray.map(function(scoreItem, index) {
       if ( scoreItem.type === 'current_user_score' ) {
