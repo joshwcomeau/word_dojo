@@ -14,6 +14,9 @@ function formatScores(scores) {
 
 }
 
+
+var interval;
+
 module.exports = React.createClass({
 
   mixins: [ReactFireMixin],
@@ -31,6 +34,9 @@ module.exports = React.createClass({
     //     items: this.items
     //   });
     // }.bind(this));
+  },
+
+  componentDidMount: function() {
   },
 
   submitScore: function() {
@@ -62,14 +68,26 @@ module.exports = React.createClass({
 
     }
 
+    var showingUnderscore = true;
+    console.log("mounted", document.getElementById("name-input"));
+
+    
+    interval = window.setInterval(function() {
+      if ( document.getElementById("name-input") ) {
+        console.log(showingUnderscore);
+        document.getElementById("name-input").placeholder = showingUnderscore ? "Enter Name_" : "Enter Name";
+        showingUnderscore = !showingUnderscore;
+      }
+    }, 500); 
 
     var highScoreNodes  = scoreArray.map(function(scoreItem, index) {
       if ( scoreItem.type === 'current_user_score' ) {
         return (
-          <div className="high-score-row" key={index}>
+          <div className="high-score-row new-score" key={index}>
             <span className="rank">{index+1}</span>
-            <span className="name"><input type="text" placeholder="Enter Name_" defaultValue={this.state.name} /></span>
+            <span className="name"><input type="text" className="name-input" id="name-input" defaultValue={this.state.name} /></span>
             <span className="score">{scoreItem.score}</span>
+            <button className="submit-score">Submit</button>
           </div>
         );
       } else {
