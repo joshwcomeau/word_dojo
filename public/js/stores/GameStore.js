@@ -201,8 +201,6 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
 });
 
 AppDispatcher.register(function(action) {
-  console.log(_currentWord);
-  
   switch (action.type) {
     case AppConstants.INITIALIZE:
       resetBoard(action.col, action.row);
