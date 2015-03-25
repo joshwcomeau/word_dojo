@@ -1,6 +1,7 @@
 var React       = require('react');
 var ClassNames  = require('classnames');
 var TileColumn  = require('./TileColumn.jsx');
+var HighScores  = require('./HighScores.jsx');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
 
@@ -60,7 +61,7 @@ module.exports = React.createClass({
 
     return (
       <div className="gameboard-wrapper">
-        { this.state.over ? (<div className='game-over-cover'></div>) : null }
+        { this.state.over ? (<HighScores />) : null }
         <div className="gameboard">
           { tileColumnNodes }
         </div>

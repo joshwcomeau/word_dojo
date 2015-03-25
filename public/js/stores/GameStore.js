@@ -19,11 +19,13 @@ var _active           = [];
 var _currentWord      = "";
 var _completedWords   = [];
 var _recentMoveState  = null;
+var _highScores       = [];
 
 var _gameActive       = false;
 var _gameOver         = false;
 
-var _gameLength = 120;
+var GAME_LENGTH = 2;
+var firebaseRef = new Firebase("https://word-dojo.firebaseio.com/");
 
 function resetBoard(col, row) {
   var column, letters, letter;
@@ -172,22 +174,25 @@ function evaluateWord() {
 function endGame() {
   setAllToInactive();
   _gameOver = true;
+
+  // Push this score to Firebase
+
+
 }
 
 var GameStore = _.extend({}, EventEmitter.prototype, {
   // Getters
-  getScore:   function() { return _score;           },
-  getMoves:   function() { return _moves;           },
-  getTime:    function() { return _time;            },
-  getBoard:   function() { return _board;           },
-  getWord:    function() { return _currentWord;     },
-  getWords:   function() { return _completedWords;  },
-  getLength:  function() { return _gameLength;      },
-
-
+  getScore:       function() { return _score;           },
+  getMoves:       function() { return _moves;           },
+  getTime:        function() { return _time;            },
+  getBoard:       function() { return _board;           },
+  getWord:        function() { return _currentWord;     },
+  getWords:       function() { return _completedWords;  },
+  getLength:      function() { return GAME_LENGTH;      },
+  getHighScores:  function() { return _highScores;      },
   getRecentMove:  function() { return _recentMoveState; },
-  getGameOver:    function() { return _gameOver; },
-  getGameActive:  function() { return _gameActive; },
+  getGameOver:    function() { return _gameOver;        },
+  getGameActive:  function() { return _gameActive;      },
 
   isActiveTile: function(column, row) {
     return _board[column][row] ? _board[column][row].active : false;
