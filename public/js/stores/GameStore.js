@@ -19,13 +19,11 @@ var _active           = [];
 var _currentWord      = "";
 var _completedWords   = [];
 var _recentMoveState  = null;
-var _highScores       = [];
 
 var _gameActive       = false;
 var _gameOver         = false;
 
 var GAME_LENGTH = 2;
-var firebaseRef = new Firebase("https://word-dojo.firebaseio.com/");
 
 function resetBoard(col, row) {
   var column, letters, letter;
@@ -189,7 +187,6 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
   getWord:        function() { return _currentWord;     },
   getWords:       function() { return _completedWords;  },
   getLength:      function() { return GAME_LENGTH;      },
-  getHighScores:  function() { return _highScores;      },
   getRecentMove:  function() { return _recentMoveState; },
   getGameOver:    function() { return _gameOver;        },
   getGameActive:  function() { return _gameActive;      },
