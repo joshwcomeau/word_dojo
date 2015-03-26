@@ -58,21 +58,27 @@ module.exports = React.createClass({
       score: GameStore.getScore()
     });
 
-    $(".new-score").hide();
+    $("#new-score").hide();
   },
+
   buildScoresArray: function() {
-    var currentScore  = GameStore.getScore(); 
+    var currentScore, scoreArray, newScoreIndex;
+    
+    currentScore  = GameStore.getScore(); 
 
-    // Sort it from lowest to highest
-    var scoreArray = this.state.scores.slice(0).sort(function(a, b) { 
-      return a.score >= b.score ? 1 : -1
-    });
+    // Sort it from highest to lowest, keep the first 10
+    scoreArray = this.state.scores.sort(function(a, b) { 
+      return a.score <= b.score ? 1 : -1;
+    }).slice(0, 10);
 
-    if ( scoreArray.length && currentScore > scoreArray[0].score ) {
+    console.log(scoreArray);
+
+    if ( scoreArray.length && currentScore > scoreArray[scoreArray.length-1].score ) {
       // Find the index of the first score greater than the user's.
-      var newScoreIndex = _.findIndex(scoreArray, function(scoreItem) {
-        return scoreItem.score > currentScore;
-      })
+      newScoreIndex = _.findLastIndex(scoreArray, function(scoreItem) {
+        console.log(scoreItem.score, "and", currentScore)
+        return scoreItem.score < currentScore;
+      });
 
       // Shove it in the score array, with a special type so the iterator
       // knows it's not a regular score item.
@@ -83,7 +89,7 @@ module.exports = React.createClass({
       });
     } 
 
-    return scoreArray.reverse();
+    return scoreArray;
   },
 
   render: function() {
@@ -94,7 +100,7 @@ module.exports = React.createClass({
     var highScoreNodes  = scoreArray.map(function(scoreItem, index) {
       if ( scoreItem.type === 'current_user_score' ) {
         return (
-          <div className="high-score-row new-score" key={index}>
+          <div className="high-score-row new-score" id="new-score" key={index}>
             <span className="rank">{index+1}</span>
             <span className="name"><input type="text" className="name-input" id="name-input" ref="playername" defaultValue={this.state.name} /></span>
             <span className="score">{scoreItem.score}</span>
