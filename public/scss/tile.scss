@@ -1,0 +1,100 @@
+@import 'variables';
+@import 'animations';
+
+.tile {
+  position: relative;
+  width: $cell-width;
+  height: $cell-height;
+  line-height: $cell-height;
+  margin-left: $cell-width / 2;
+  margin-bottom: $cell-spacing;
+  text-align: center;
+  background: $color-tile;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-tile-hover;
+    &:before { border-right: ($cell-width / 2) solid $color-tile-hover; }
+    &:after  { border-left:  ($cell-width / 2) solid $color-tile-hover; }
+
+  }
+
+  &:before {
+    content: " ";
+    position: absolute;
+    width: 0; 
+    height: 0;
+    left: -$cell-width / 2;
+    top: 0;
+    border-top: ($cell-height/2) solid transparent;
+    border-bottom: ($cell-height/2) solid transparent;
+    border-right: ($cell-width / 2) solid $color-tile;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    right: -$cell-width / 2;
+    top: 0;
+    border-left: ($cell-width / 2) solid $color-tile;
+    border-top: ($cell-height/2) solid transparent;
+    border-bottom: ($cell-height/2) solid transparent;
+  }
+
+  &.active {
+    background: $color-active-tile;
+    font-size: 1.25em;
+    animation-name: click-letter;
+    animation-duration: 0.2s;
+
+    animation-fill-mode: none;
+
+    &:before {
+      border-right: ($cell-width / 2) solid $color-active-tile;
+    }
+    &:after {
+      border-left: ($cell-width / 2) solid $color-active-tile;
+    }
+  }
+
+  &.deactive {
+    animation-name: invalid-selection;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: none;
+    
+    &:before, &:after {
+      animation-duration: 0.1s;
+      animation-timing-function: ease-in;
+      animation-fill-mode: none;
+    }
+
+    &:before {
+      animation-name: invalid-selection-before;      
+    }
+    &:after {
+      animation-name: invalid-selection-after;      
+    }
+  }
+
+  &.accepted {
+    animation-name: valid-selection;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: none;
+    
+    &:before, &:after {
+      animation-duration: 0.1s;
+      animation-timing-function: ease-in;
+      animation-fill-mode: none;
+    }
+
+    &:before {
+      animation-name: valid-selection-before;      
+    }
+    &:after {
+      animation-name: valid-selection-after;      
+    }
+  }  
+}

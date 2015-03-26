@@ -5,6 +5,8 @@ $cell-spacing: 7px;
 $cell-row-num:  7;
 $cell-col-num:  11;
 
+$sidebar-width: 200px;
+
 $board-outline: 16px;
 $bottom-row-height: 60px;
 
@@ -22,11 +24,14 @@ $color-beige:     #FEFAEF;
 $color-sand:      #E0C387;
 $color-grey:      #737574;
 $color-mint:      #9CBAAE;
+$color-grass:     #44701D;
 
 
 $color-background:  #666;
 $color-gameboard:   none;
 $color-tile:        #EEE;
+$color-tile-hover:  #FFF;
 $color-active-tile: $color-orange;
 $color-btn:         $color-dgreen;
 $color-btn-active:  $color-lgreen;
+$color-highscore:   $color-grass;

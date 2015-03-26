@@ -20,5 +20,16 @@ module.exports = {
     AppDispatcher.dispatch({
       type: AppConstants.EVALUATE_WORD
     });
+  },
+  timesUp: function() {
+    AppDispatcher.dispatch({
+      type: AppConstants.TIME_UP
+    });
+  },
+  submitHighScore: function(name) {
+    AppDispatcher.dispatch({
+      type: AppConstants.SUBMIT_HIGH_SCORE,
+      name: name
+    });
   }
 };

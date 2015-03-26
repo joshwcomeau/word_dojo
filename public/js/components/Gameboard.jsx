@@ -1,6 +1,7 @@
 var React       = require('react');
 var ClassNames  = require('classnames');
 var TileColumn  = require('./TileColumn.jsx');
+var HighScores  = require('./HighScores.jsx');
 var GameActions = require('../actions/GameActions');
 var GameStore   = require('../stores/GameStore');
 
@@ -8,7 +9,7 @@ function getState() {
   return {
     board: GameStore.getBoard(),
     word:  GameStore.getWord(),
-    submitEnabled: GameStore.getWord().length >= 3
+    over:  GameStore.getGameOver()
   };
 }
 
@@ -26,36 +27,44 @@ module.exports = React.createClass({
 
   componentDidMount: function() {
     GameStore.addChangeListener(this._onChange);
+    window.addEventListener("keypress", this.handleKeypress);
   },
   componentWillUnmount: function() {
     GameStore.removeChangeListener(this._onChange);
+    window.removeEventListener("keypress", this.handleKeypress);
+
   },
   _onChange: function() {
     this.setState(getState());
   },  
 
-  submit: function() {
-    GameActions.evaluateWord();
+  handleKeypress: function(e) {
+    if (!(e.which === 32 || e.which === 13)) return false;
+
+    if ( this.state.over ) {
+      GameActions.initialize(_colCount, _rowCount);
+      // restart game
+    } else {
+      if ( this.state.word.length >= 3 ) {
+        GameActions.evaluateWord();
+      } else {
+        alert("Words must be at least 3 characters!");
+      }
+    }
   },
 
-  render: function() {
-    console.log(GameStore.getWord().length > 3);
 
+  render: function() {
     var tileColumnNodes = _.times(_colCount, function(index) {
       return (<TileColumn key={index} column={index} size={_rowCount} tiles={this.state.board[index]} />);
     }, this);
 
-    var buttonClasses = ClassNames("submit-button", {
-      'enabled': this.state.submitEnabled
-    });
-
     return (
-      <div className="gameboard">
-        { tileColumnNodes }
-        <div className="current-word">
-          {this.state.word}
+      <div className="gameboard-wrapper">
+        { this.state.over ? (<HighScores />) : null }
+        <div className="gameboard">
+          { tileColumnNodes }
         </div>
-        <button className={buttonClasses} disabled={!this.state.submitEnabled} onClick={this.submit}>Submit</button>
       </div>
         
     );

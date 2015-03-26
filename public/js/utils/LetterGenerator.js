@@ -7,17 +7,19 @@ var _letters          = {
   consonants: 'BCDFGHJKLMNPQRSTVWXZ'
 };
 
+var _letters = [
+  'A','A','A','A','A','A','A','A','A','B','B','C','C','D','D','D','D','E','E','E','E','E','E','E','E','E','E','E','E',
+  'F','F','G','G','G','H','H','H','H','I','I','I','I','I','I','I','I','I','J','K','L','L','L','L','M','M','O','O','O',
+  'O','O','O','O','O','P','P','Q','R','R','R','R','R','R','S','S','S','S','T','T','T','T','T','T','U','U','U','U','V',
+  'V','W','W','X','Y','Y','Z'
+];
 var letterGenerator = {
   generate: function(num) {
-    // For now, let's keep it simple: 50% chance to get a vowel, 50% to get a consonant.
-    // Later I will need to figure out a smarter way, so that letters like R show up more
-    // than letters like X or Z.
-    var letter,
-        letters = [];
+    // Using scrabble letter distributions, I'm gonna assume they've solved this problem.
+    var letters = [];
 
     _.times(num, function() {
-      letter = Math.random() < 0.5 ? _.sample(_letters.vowels) : _.sample(_letters.consonants);
-      letters.push(letter);
+      letters.push(_.sample(_letters));
     });
 
     return letters;

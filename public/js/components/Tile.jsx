@@ -13,6 +13,7 @@ module.exports  = React.createClass({
       justAccepted:    false
     }
   },
+
   componentWillReceiveProps: function(nextProps) {
 
     // If we're de-activating this tile
