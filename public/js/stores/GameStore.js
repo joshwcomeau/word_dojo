@@ -20,6 +20,7 @@ var _currentWord = "";
 
 var _recentMoveState = null;
 
+var GAME_LENGTH = 180;
 
 function resetBoard(col, row) {
   var column, letters, letter;

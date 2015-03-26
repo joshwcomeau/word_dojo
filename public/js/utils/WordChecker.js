@@ -4,7 +4,7 @@
 
 var words = [];
 
-$.get('words.txt').done(function(text) {
+$.get('http://josh-lab.com/word_dojo/words.txt').done(function(text) {
   words = text.split(",");
 });
 
