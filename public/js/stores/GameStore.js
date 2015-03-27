@@ -76,7 +76,7 @@ function startGame() {
   _gameOver   = false;
 }
 
-function updatePlayerName(name) {
+function submitHighScore(name) {
   _playerName = name;
 }
 
@@ -226,7 +226,7 @@ AppDispatcher.register(function(action) {
       break;
 
     case AppConstants.SUBMIT_HIGH_SCORE:
-      updatePlayerName(action.name);
+      submitHighScore(action.name);
       GameStore.emitChange();
       break;      
 
