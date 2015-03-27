@@ -64,17 +64,21 @@ body {
 
 .flash-msg-enter {
   opacity: 0;
+  top: -3rem;
   transition: 0.5s;
 }
 .flash-msg-enter-active {
   opacity: 1;
+  top: -5rem;
 }
 .flash-msg-leave {
   opacity: 1;
+  top: -5rem;
   transition: 0.5s;
 }
 .flash-msg-leave-active {
   opacity: 0;
+  top: -10rem;
 }
 
 .tile-column {

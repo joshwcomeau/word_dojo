@@ -26,11 +26,7 @@ module.exports = React.createClass({
     this.setState(getState());
   },  
 
-
-  render: function() {
-    console.log(this.state.message)
-    var flashNode;
-
+  buildMessage: function() {
     if ( this.state.message ) {
 
       var flashClasses = ClassNames('flash-message', {
@@ -41,12 +37,10 @@ module.exports = React.createClass({
       });
 
       return (
-        <ReactCSSTransitionGroup transitionName="flash-msg">
-          <div className="flash-message" key="fm">
-            <h4>{this.state.message.head}</h4>
-            <h6>{this.state.message.info}</h6>
-          </div>
-        </ReactCSSTransitionGroup>
+        <div className="flash-message" key="fm">
+          <h4>{this.state.message.head}</h4>
+          <h6>{this.state.message.info}</h6>
+        </div>
       );
     } else {
       // This is a bit of a hack, because this component needs to render *something*.
@@ -54,5 +48,16 @@ module.exports = React.createClass({
       // component is rendered, but I'd rather keep that logic contained in this component.
       return (<div></div>);
     }
+  },
+
+
+  render: function() {
+    var flashNode;
+
+    return (
+      <ReactCSSTransitionGroup transitionName="flash-msg">
+        {this.buildMessage()}
+      </ReactCSSTransitionGroup>
+    );
   }
 });

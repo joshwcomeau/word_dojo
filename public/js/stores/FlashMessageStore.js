@@ -6,8 +6,9 @@ var AppConstants        = require('../constants/AppConstants');
 var MoveConstants       = require('../constants/MoveConstants'); 
     
 
-var _message = null,
-    _interval = null;
+var _message        = null,
+    _display_time   = null,
+    MESSAGE_LENGTH  = 1000 ;
 
 function setFlashMessage(head, info, msgType) {
   _message = {
@@ -16,9 +17,11 @@ function setFlashMessage(head, info, msgType) {
     msgType: msgType
   };
 
-  _interval = window.setTimeout(function() {
+  window.clearTimeout(_display_time);
+
+  _display_time = window.setTimeout(function() {
     clearFlashMessage();
-  }, 1500);
+  }, MESSAGE_LENGTH);
 }
 
 function clearFlashMessage() {
