@@ -1,9 +1,12 @@
-var React       = require('react');
-var ClassNames  = require('classnames');
-var TileColumn  = require('./TileColumn.jsx');
-var HighScores  = require('./HighScores.jsx');
-var GameActions = require('../actions/GameActions');
-var GameStore   = require('../stores/GameStore');
+var React               = require('react');
+var ClassNames          = require('classnames');
+var TileColumn          = require('./TileColumn.jsx');
+var HighScores          = require('./HighScores.jsx');
+var FlashMessage        = require('./FlashMessage.jsx');
+var GameActions         = require('../actions/GameActions');
+var GameStore           = require('../stores/GameStore');
+var FlashMessageActions = require('../actions/FlashMessageActions');
+
 
 function getState() {
   return {
@@ -48,7 +51,8 @@ module.exports = React.createClass({
       if ( this.state.word.length >= 3 ) {
         GameActions.evaluateWord();
       } else {
-        alert("Words must be at least 3 characters!");
+        GameActions.resetWord();
+        FlashMessageActions.setFlashMessage("Too Short", "Minimum 3 characters.", "alert");
       }
     }
   },
@@ -64,6 +68,7 @@ module.exports = React.createClass({
         { this.state.over ? (<HighScores />) : null }
         <div className="gameboard">
           { tileColumnNodes }
+          <FlashMessage />
         </div>
       </div>
         

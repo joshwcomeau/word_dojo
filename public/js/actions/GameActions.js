@@ -21,6 +21,11 @@ module.exports = {
       type: AppConstants.EVALUATE_WORD
     });
   },
+  resetWord: function() {
+    AppDispatcher.dispatch({
+      type: AppConstants.RESET_WORD
+    })
+  },
   timesUp: function() {
     AppDispatcher.dispatch({
       type: AppConstants.TIME_UP

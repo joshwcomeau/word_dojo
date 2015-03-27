@@ -43,7 +43,39 @@ body {
 
 }
 
+.flash-message {
+  position: absolute;
+  top: -5rem;
+  height: 5rem;
+  left: 0;
+  right: 0;
+  text-align: center;
 
+  h4 {
+    font-size: 2rem;
+    color: $color-flash-head;
+  }
+
+  h6 {
+    font-size: 1.3rem;
+    color: $color-flash-info;
+  }
+}
+
+.flash-msg-enter {
+  opacity: 0;
+  transition: 0.5s;
+}
+.flash-msg-enter-active {
+  opacity: 1;
+}
+.flash-msg-leave {
+  opacity: 1;
+  transition: 0.5s;
+}
+.flash-msg-leave-active {
+  opacity: 0;
+}
 
 .tile-column {
   position: relative;

@@ -24,7 +24,7 @@ var _playerName       = null;
 var _gameActive       = false;
 var _gameOver         = false;
 
-var GAME_LENGTH = 2;
+var GAME_LENGTH = 20;
 
 function resetBoard(col, row) {
   var column, letters, letter;
@@ -137,6 +137,11 @@ function clickTile(column, row) {
   }
 }
 
+function resetWord() {
+  _recentMoveState = MoveConstants.WORD_REJECTED;
+  setAllToInactive();
+}
+
 function evaluateWord() {
   var validWord = WordChecker.validateWord(_currentWord);
 
@@ -222,6 +227,11 @@ AppDispatcher.register(function(action) {
     
     case AppConstants.EVALUATE_WORD:
       evaluateWord();
+      GameStore.emitChange();
+      break;
+
+    case AppConstants.RESET_WORD:
+      resetWord();
       GameStore.emitChange();
       break;
 
