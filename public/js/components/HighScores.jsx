@@ -85,36 +85,38 @@ module.exports = React.createClass({
     currentScore  = GameStore.getScore(); 
     scoreArray    = this.getSortedHighScores();
     newScore      = this.buildNewScoreObject(currentScore);
+    lowestScore   = scoreArray.length === 0 ? null : _.last(scoreArray).score;
 
     // If we've already submitted a score (this is a re-render), or we haven't solved any words (no '0' high scores)
-    if (this.state.scoreSubmitted || currentScore === 0) return scoreArray;
-
-    // This is the first-ever high score! We can just shove our new score into the empty array and call it a day.
-    if ( scoreArray.length === 0 ) {
-      scoreArray.push(newScore);
-      return scoreArray;
+    if (this.state.scoreSubmitted || currentScore === 0) {
+      // do nothing
     }
 
-    lowestScore = _.last(scoreArray).score;
+    // This is the first-ever high score! We can just shove our new score into the empty array and call it a day.
+    else if ( scoreArray.length === 0 ) {
+      scoreArray.push(newScore);
+    }
+
+    //This is the rare edge case when there are less than 10 scores on the board, and we're lower than all of them.
+    else if ( scoreArray.length < NUM_OF_HIGH_SCORES && currentScore <= lowestScore ) {
+      scoreArray.push(newScore);
+    }
 
     // If there are empty spaces on the high score board, OR if our score is highest than the lowest score,
     // we need to add our newScore object somewhere in the array.
-    if ( currentScore > lowestScore || scoreArray.length < NUM_OF_HIGH_SCORES ) {
+    else if ( currentScore > lowestScore ) {
       
       // Find the index of the first score less than the user's
       newScoreIndex = _.findIndex(scoreArray, function(scoreItem) {
         return scoreItem.score < currentScore;
       });
 
-      if ( newScoreIndex >= 0 ) {
-        // Our new score is somewhere in-between or on top of the other scores. Add it in the appropriate place.
-        scoreArray.splice(newScoreIndex, 0, newScore);
-        // Remove the lowest score; we've bumped it from the equation
+      // Our new score is somewhere in-between or on top of the other scores. Add it in the appropriate place.
+      scoreArray.splice(newScoreIndex, 0, newScore);
+      
+      // Remove the lowest score if we're over capacity: we've bumped it from the equation
+      if ( scoreArray.length > NUM_OF_HIGH_SCORES ) { 
         scoreArray.splice(-1, 1);
-      } else {
-        // This is the rare edge case when there are less than 10 scores on the board, 
-        // and we're lower than all of them.
-        scoreArray.push(newScore)
       }
     }
 

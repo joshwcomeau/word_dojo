@@ -2,6 +2,23 @@
 @import 'animations';
 
 
+// animation classes
+// .high-scores-enter {
+//   height: 1px !important;
+//   transition: 0.5s;
+// }
+// .high-scores-enter-active {
+//   height: 28px !important;
+// }
+// .high-scores-leave {
+//   height: 28px !important;
+//   transition: 0.5s;
+// }
+// .high-scores-leave-active {
+//   height: 1px !important;
+// }
+
+
 .high-scores-wrapper {
   position: fixed;
   z-index: 2;
@@ -35,6 +52,11 @@
     position: relative;
     width: 75%;
     margin: 1rem auto;
+    animation-name: fade-in-drop;
+    animation-duration: 1s;
+    animation-delay: 0.25s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: backwards;
   }
 
   .high-score-row {
