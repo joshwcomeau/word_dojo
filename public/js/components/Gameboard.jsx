@@ -44,10 +44,7 @@ module.exports = React.createClass({
   handleKeypress: function(e) {
     if (!(e.which === 32 || e.which === 13)) return false;
 
-    if ( this.state.over ) {
-      GameActions.initialize(_colCount, _rowCount);
-      // restart game
-    } else {
+    if ( !this.state.over ) {
       if ( this.state.word.length >= 3 ) {
         GameActions.evaluateWord();
       } else {
@@ -65,7 +62,7 @@ module.exports = React.createClass({
 
     return (
       <div className="gameboard-wrapper">
-        { this.state.over ? (<HighScores />) : null }
+        { this.state.over ? (<HighScores cols={_colCount} rows={_rowCount} />) : null }
         <div className="gameboard">
           { tileColumnNodes }
           <FlashMessage />

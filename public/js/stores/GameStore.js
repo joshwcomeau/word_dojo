@@ -24,7 +24,7 @@ var _playerName       = null;
 var _gameActive       = false;
 var _gameOver         = false;
 
-var GAME_LENGTH = 20;
+var GAME_LENGTH = 10;
 
 function resetBoard(col, row) {
   var column, letters, letter;

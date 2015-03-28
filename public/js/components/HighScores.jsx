@@ -41,28 +41,47 @@ module.exports = React.createClass({
         showingUnderscore = !showingUnderscore;
       }
     }, 500); 
+
+    window.addEventListener("keypress", this.handleKeypress);
+
   },
 
   componentWillUnmount: function() {
     window.clearTimeout(interval);
+    window.removeEventListener("keypress", this.handleKeypress);
+
+  },
+
+  handleKeypress: function(e) {
+    if ( e.which === 13 ) {
+      this.submitScore();
+    }
   },
 
   submitScore: function() {
-    var playerName = this.refs.playername.getDOMNode().value,
+    var playerNode  = this.refs.playername.getDOMNode(),
+        playerName  = playerNode.value,
+        playerRow   = playerNode.parentNode.parentNode,
         uniqueId    = Date.now(),
         newScoreObj = {};
 
-    // Right now, this only updates the _playerName variable in GameStore.
-    GameActions.submitHighScore(playerName);
+    // Ensure they've provided a name
+    if ( playerName == "" ) {
+      playerRow.className += " error";
+      
+    } else {
+      // Right now, this only updates the _playerName variable in GameStore.
+      GameActions.submitHighScore(playerName);
 
-    this.firebaseRef.push({
-      name:  playerName,
-      score: GameStore.getScore()
-    });
+      this.firebaseRef.push({
+        name:  playerName,
+        score: GameStore.getScore()
+      });
 
-    this.setState({
-      scoreSubmitted: true
-    });
+      this.setState({
+        scoreSubmitted: true
+      });
+    }
   },
 
   buildNewScoreObject: function(currentScore) {
@@ -123,6 +142,10 @@ module.exports = React.createClass({
     return scoreArray;
   },
 
+  handleRestart: function() {
+    GameActions.initialize(this.props.cols, this.props.rows);
+  },
+
   render: function() {
     // We need to iterate through our scores and, if our score is higher than one of them, 
     // 'insert' the custom user score holder. Bit messy, but it'll work for a first-pass.
@@ -135,7 +158,7 @@ module.exports = React.createClass({
             <span className="rank">{index+1}</span>
             <span className="name"><input type="text" className="name-input" id="name-input" ref="playername" defaultValue={this.state.name} /></span>
             <span className="score">{scoreItem.score}</span>
-            <button className="submit-score" onClick={this.submitScore}>Submit</button>
+            <button className="submit-score" onClick={this.submitScore}><i className="fa fa-check"></i></button>
           </div>
         );
       } else {
@@ -157,6 +180,7 @@ module.exports = React.createClass({
           <div className="high-scores-table">
             {highScoreNodes}
           </div>
+          <button className="restart-button" onClick={this.handleRestart}>Restart Game</button>
         </div>
       </div>
         
