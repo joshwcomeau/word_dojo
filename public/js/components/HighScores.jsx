@@ -1,7 +1,10 @@
-var React       = require('react');
-var ClassNames  = require('classnames');
-var GameActions = require('../actions/GameActions');
-var GameStore   = require('../stores/GameStore');
+var React         = require('react');
+var ClassNames    = require('classnames');
+var GameActions   = require('../actions/GameActions');
+var GameStore     = require('../stores/GameStore');
+
+var FIREBASE_URL  = "https://word-dojo.firebaseio.com/scores/";
+
 
 function getState() {
   return {
@@ -28,7 +31,7 @@ module.exports = React.createClass({
   },
 
   componentWillMount: function() {
-    this.firebaseRef = new Firebase("https://word-dojo.firebaseio.com/scores/");
+    this.firebaseRef = new Firebase(FIREBASE_URL);
     this.bindAsArray(this.firebaseRef, "scores");
   },
 
@@ -50,6 +53,14 @@ module.exports = React.createClass({
     window.clearTimeout(interval);
     window.removeEventListener("keypress", this.handleKeypress);
 
+  },
+
+  clearPlaceholder: function() {
+    window.clearTimeout(interval);
+    document.getElementById("name-input").placeholder = "";
+
+    // Also, show the submit button.
+    document.getElementById("submit-score").className += " shown";
   },
 
   handleKeypress: function(e) {
@@ -156,9 +167,9 @@ module.exports = React.createClass({
         return (
           <div className="high-score-row new-score" id="new-score" key={index}>
             <span className="rank">{index+1}</span>
-            <span className="name"><input type="text" className="name-input" id="name-input" ref="playername" defaultValue={this.state.name} /></span>
+            <span className="name"><input type="text" className="name-input" id="name-input" ref="playername" defaultValue={this.state.name} onClick={this.clearPlaceholder} /></span>
             <span className="score">{scoreItem.score}</span>
-            <button className="submit-score" onClick={this.submitScore}><i className="fa fa-check"></i></button>
+            <button className="submit-score" id="submit-score" onClick={this.submitScore}><i className="fa fa-check"></i></button>
           </div>
         );
       } else {

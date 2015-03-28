@@ -2,21 +2,6 @@
 @import 'animations';
 
 
-// animation classes
-// .high-scores-enter {
-//   height: 1px !important;
-//   transition: 0.5s;
-// }
-// .high-scores-enter-active {
-//   height: 28px !important;
-// }
-// .high-scores-leave {
-//   height: 28px !important;
-//   transition: 0.5s;
-// }
-// .high-scores-leave-active {
-//   height: 1px !important;
-// }
 
 
 .high-scores-wrapper {
@@ -31,7 +16,7 @@
 
   .high-scores-container {
     position: absolute;
-    height: 500px;
+    height: 520px;
     width: 700px;
     top: 0;
     left: 0;
@@ -150,23 +135,35 @@
     .submit-score {
       position: absolute;
       height: 54px;
-      width: 70px;
+      width: 0px;
       top: -4px;
-      right: -74px;
+      right: -4px;
       border: 0;
+      padding: 0;
       font-size: 20px;
+      overflow: hidden;
 
       &:hover {
         cursor: pointer;
         background: #FFF;
         transition: 0.1s;
       }
+
+      &.shown {
+        width: 70px;
+        right: -74px;
+        transition: 0.5s;
+      }
     }
 
   }
 
   .restart-button {
-    position: relative;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    margin: 0 auto;
     width: 50%;
     height: 40px;
     background: $color-dgreen;
@@ -176,6 +173,11 @@
     border-right: 1px solid darken($color-dgreen, 7%);
     border-bottom: 3px solid darken($color-dgreen, 7%);
     border-radius: 5px;
+    animation-name: fade-in;
+    animation-duration: 1.5s;
+    animation-delay: 0.25s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: backwards;
 
     &:hover {
       transition: 0.25s;
