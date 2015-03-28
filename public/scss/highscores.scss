@@ -2,8 +2,6 @@
 @import 'animations';
 
 
-
-
 .high-scores-wrapper {
   position: fixed;
   z-index: 2;
@@ -56,6 +54,11 @@
     background: rgba(0,0,0,0.1);
     z-index: 1;
 
+    &:hover {
+      background: rgba(50,50,50,0.3);
+      transition: 0.2s;
+    }
+
     &:last-of-type {
       border-bottom: 0;
     }
@@ -66,6 +69,11 @@
       outline: 4px solid $color-highscore;
       border-bottom: 0;
       transition: 0.4s;
+
+      &:hover {
+        background: $color-highscore;
+
+      }
 
       span.score {
         float: right;
@@ -117,12 +125,12 @@
       float: left;
 
       &.rank {
-        width: 15%;
+        width: 10%;
         font-size: 22px;
         font-weight: 100;
       }
       &.name {
-        width: 60%;
+        width: 65%;
         font-size: 30px;
 
       }

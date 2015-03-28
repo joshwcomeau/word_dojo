@@ -1,6 +1,17 @@
 @import 'variables';
 @import 'animations';
 
+.tile-column {
+  position: relative;
+  float: left;
+  width: 73px;
+  height: 100%;
+
+  &:nth-child(even) {
+    margin-top: $cell-height/2 + 2;
+  }
+}
+
 .tile {
   position: relative;
   width: $cell-width;
@@ -10,13 +21,12 @@
   margin-bottom: $cell-spacing;
   text-align: center;
   background: $color-tile;
-  cursor: pointer;
 
   &:hover {
+    cursor: pointer;
     background: $color-tile-hover;
     &:before { border-right: ($cell-width / 2) solid $color-tile-hover; }
     &:after  { border-left:  ($cell-width / 2) solid $color-tile-hover; }
-
   }
 
   &:before {
@@ -97,4 +107,50 @@
       animation-name: valid-selection-after;      
     }
   }  
+  &.demo-disabled {
+    background: #AAA;
+    color: #888;
+    cursor: default !important;
+
+    &:before { border-right: ($cell-width / 2) solid #AAA; }
+    &:after  { border-left:  ($cell-width / 2) solid #AAA; }
+  }
+
+  &.demo-active {
+    animation-name: demo-click-letter;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+    cursor: default !important;
+
+    &:before, &:after {
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in;
+      animation-fill-mode: forwards;
+    }
+    &:before { animation-name: demo-click-letter-before; }
+    &:after {  animation-name: demo-click-letter-after;  }    
+
+    &.first {
+      animation-delay: 0s;
+      &:before, &:after { animation-delay: 0s; }
+    }
+    &.second {
+      animation-delay: 0.5s;
+      &:before, &:after { animation-delay: 0.5s; }
+    }
+    &.third {
+      animation-delay: 1s;
+      &:before, &:after { animation-delay: 1s; }
+    }
+    &.fourth {
+      animation-delay: 1.5s;
+      &:before, &:after { animation-delay: 1.5s; }
+    }
+    &.fifth {
+      animation-delay: 2s;
+      &:before, &:after { animation-delay: 2s; }
+    }
+
+  }
 }

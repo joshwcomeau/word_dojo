@@ -11,6 +11,31 @@
   100% { opacity: 1;  }
 }
 
+@keyframes demo-click-letter {
+  0%   { background: $color-tile; }
+  25%   { background: $color-htp-active; color: #FFF; }
+  50%  { background: $color-htp-active; color: #FFF; }
+  100%  { background: $color-htp-active; color: #FFF; }
+}
+@keyframes demo-click-letter-before {
+  0%   { border-right: ($cell-width / 2) solid $color-tile; }
+  25%   { border-right: ($cell-width / 2) solid $color-htp-active; }
+  100%  { border-right: ($cell-width / 2) solid $color-htp-active; }
+}
+@keyframes demo-click-letter-after {
+  0%   { border-left: ($cell-width / 2) solid $color-tile; }
+  25%   { border-left: ($cell-width / 2) solid $color-htp-active; }
+  100%  { border-left: ($cell-width / 2) solid $color-htp-active; }
+}
+
+@keyframes demo-spacebar {
+  0%   { top: 68px; border-bottom: 6px solid #AAA; }
+  10%  { top: 72px; border-bottom: 2px solid #666; }
+  20%  { top: 68px; border-bottom: 6px solid #AAA; }
+  100% { top: 68px; border-bottom: 6px solid #AAA; }
+}
+
+
 @keyframes click-letter {
   0%   { font-size: 1.75em; }
   100% { font-size: 1.25em; }
@@ -22,14 +47,13 @@
 }
 
 @keyframes invalid-selection-before {
-  
   0%   { border-right: ($cell-width / 2) solid $color-red; }
-  100% { border-right: ($cell-width / 2) solid $color-tile }
+  100% { border-right: ($cell-width / 2) solid $color-tile; }
 }
 
 @keyframes invalid-selection-after {
   0%   { border-left: ($cell-width / 2) solid $color-red; }
-  100% { border-left: ($cell-width / 2) solid $color-tile }
+  100% { border-left: ($cell-width / 2) solid $color-tile; }
 }
 
 @keyframes valid-selection {
@@ -39,10 +63,10 @@
 
 @keyframes valid-selection-before {
   0%   { border-right: ($cell-width / 2) solid $color-lgreen; }
-  100% { border-right: ($cell-width / 2) solid $color-tile }
+  100% { border-right: ($cell-width / 2) solid $color-tile; }
 }
 
 @keyframes valid-selection-after {
   0%   { border-left: ($cell-width / 2) solid $color-lgreen; }
-  100% { border-left: ($cell-width / 2) solid $color-tile }
+  100% { border-left: ($cell-width / 2) solid $color-tile; }
 }
