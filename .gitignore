@@ -6,3 +6,7 @@ node_modules
 public/main.built.js
 public/style.css
 public/style.css.map
+
+# Stupid MAC files
+.DS_Store
+**/.DS_Store
