@@ -8,6 +8,10 @@
   },
   "author": "Joshua Comeau",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/joshwcomeau/word_dojo.git"
+  },
   "dependencies": {
     "flux": "^2.0.0",
     "keymirror": "~0.1.0",
