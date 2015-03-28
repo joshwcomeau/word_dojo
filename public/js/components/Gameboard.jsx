@@ -44,7 +44,7 @@ module.exports = React.createClass({
   handleKeypress: function(e) {
     if (!(e.which === 32 || e.which === 13)) return false;
 
-    if ( !this.state.over ) {
+    if ( !this.state.over && this.state.word.length ) {
       if ( this.state.word.length >= 3 ) {
         GameActions.evaluateWord();
       } else {
