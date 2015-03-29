@@ -1,4 +1,4 @@
-var React         = require('react');
+var React         = require('react/addons');
 var GameActions   = require('../actions/GameActions');
 var MoveConstants = require('../constants/MoveConstants');
 var GameStore     = require('../stores/GameStore');

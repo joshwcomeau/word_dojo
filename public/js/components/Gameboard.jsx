@@ -1,4 +1,4 @@
-var React               = require('react');
+var React               = require('react/addons');
 var ClassNames          = require('classnames');
 var TileColumn          = require('./TileColumn.jsx');
 var HighScores          = require('./HighScores.jsx');

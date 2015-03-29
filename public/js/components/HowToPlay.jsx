@@ -1,4 +1,4 @@
-var React               = require('react');
+var React               = require('react/addons');
 var ClassNames          = require('classnames');
 var FlashMessage        = require('./FlashMessage.jsx');
 var GameActions         = require('../actions/GameActions');

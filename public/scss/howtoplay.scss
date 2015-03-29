@@ -1,6 +1,22 @@
 @import 'variables';
 @import 'animations';
 
+
+.how-to-play-enter {
+  opacity: 0;
+  transition: 0.1s;
+}
+.how-to-play-enter-active {
+  opacity: 1;
+}
+.how-to-play-leave {
+  opacity: 1;
+  transition: 0.5s;
+}
+.how-to-play-leave-active {
+  opacity: 0;
+}
+
 .how-to-play {
   position: fixed;
   z-index: 10;
