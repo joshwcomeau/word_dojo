@@ -1,4 +1,4 @@
-var React         = require('react');
+var React         = require('react/addons');
 var ClassNames    = require('classnames');
 var GameActions   = require('../actions/GameActions');
 var GameStore     = require('../stores/GameStore');
@@ -184,12 +184,20 @@ module.exports = React.createClass({
       
     }.bind(this));
 
+    var loadingNode = (
+      <div className="high-scores-loading">
+        <i className="fa fa-spin fa-cog cog1"></i>
+        <i className="fa fa-spin fa-cog cog2"></i>
+        <i className="fa fa-spin fa-cog cog3"></i>
+      </div>
+    );
+
     return (
       <div className="high-scores-wrapper">
         <div className="high-scores-container">
           <h2>Game Over</h2>
           <div className="high-scores-table">
-            {highScoreNodes}
+            { this.state.scores.length ? highScoreNodes : loadingNode }
           </div>
           <button className="restart-button" onClick={this.handleRestart}>Restart Game</button>
         </div>

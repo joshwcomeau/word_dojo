@@ -32,6 +32,38 @@
     text-align: center;
   }
 
+  .high-scores-loading {
+    color: #DDD;
+    font-size: 22px;
+    text-align: center;
+    padding-top: 200px;
+
+    i {
+      position: absolute;
+      color: $color-orange;
+    }
+
+    .cog1 {
+      left: 200px;
+      top: 40px;
+      font-size: 100px;
+    }
+    .cog2 {
+      left: 266px;
+      top: 17px;
+      font-size: 68px;
+      animation-direction: reverse;
+    }
+    .cog3 {
+      left: 275px;
+      top: 92px;
+      font-size: 50px;
+      animation-direction: reverse;
+    }
+
+
+  }
+
   .high-scores-table {
     position: relative;
     width: 75%;
