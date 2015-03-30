@@ -61,11 +61,13 @@ function setAllToInactive() {
     column.forEach(function(tile, rowIndex) {
       
       // Replace me with Object.create
-      _board[columnIndex][rowIndex] = {
-        letter:   tile.letter,
-        special:  tile.special,
-        active:   false
-      };
+      _board[columnIndex][rowIndex] = Object.create(tile);
+      _board[columnIndex][rowIndex].active =  false;
+      // {
+      //   letter:   tile.letter,
+      //   special:  tile.special,
+      //   active:   false
+      // };
     });
   });
 }
@@ -80,6 +82,7 @@ function submitHighScore(name) {
 }
 
 function clickTile(column, row) {
+  var newTile;
   var clickedTile = _board[column][row];
   var neighbors   = Neighbors.getNeighbors(column, row, _board);
 
@@ -97,10 +100,8 @@ function clickTile(column, row) {
     } else {
       _recentMoveState = MoveConstants.TILE_DEACTIVATED;
 
-      var newTile = {
-        letter: clickedTile.letter,
-        active: false
-      };
+      newTile = Object.create(clickedTile);
+      newTile.active = false;
 
       _board[column][row] = newTile;
 
@@ -123,10 +124,8 @@ function clickTile(column, row) {
       _recentMoveState = MoveConstants.TILE_ACTIVATED;
     }
 
-    var newTile = {
-      letter: clickedTile.letter,
-      active: true
-    };
+    newTile = Object.create(clickedTile)
+    newTile.active = true;
 
     _board[column][row] = newTile;
     
@@ -159,10 +158,7 @@ function evaluateWord() {
     _board.forEach(function(column) {
       column.forEach(function(tile) {
         if ( tile.active ) {
-          newLetter = {
-            letter: LetterGenerator.generate(1)[0],
-            active: false
-          };
+          newLetter = LetterGenerator.generate(1)[0];
           column.splice(column.indexOf(tile), 1);
           column.unshift(newLetter);
         }

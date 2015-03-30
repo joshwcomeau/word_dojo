@@ -42,7 +42,19 @@ module.exports  = React.createClass({
   },
 
   render: function() {
-    var tileClasses = classNames('tile', {
+    var specialTileClass, tileClasses, tileValue;
+
+    // handle special tile stuff
+    if ( this.props.tile.special ) {
+      specialTileClass = "special-"+this.props.tile.letter;
+      tileValue = (
+        <i className="fa fa-star"></i>
+      );
+    } else {
+      tileValue = this.props.tile.letter;
+    }
+
+    tileClasses = classNames('tile', specialTileClass, {
       "active":   this.props.tile.active,
       "deactive": this.state.justDeactivated,
       "accepted": this.state.justAccepted
@@ -50,7 +62,7 @@ module.exports  = React.createClass({
 
     return (
       <div className={tileClasses} onClick={this.clickLetter} key={this.props.tile.letter}>
-        {this.props.tile.letter}
+        {tileValue}
       </div>
     );
   }

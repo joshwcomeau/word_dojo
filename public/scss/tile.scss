@@ -107,6 +107,33 @@
       animation-name: valid-selection-after;      
     }
   }  
+
+  // special tiles
+  &.special-wildcard {
+    background: $color-special-wc;
+    &:before { border-right: ($cell-width / 2) solid $color-special-wc; }
+    &:after  { border-left: ($cell-width / 2) solid $color-special-wc; }
+
+    &.active {
+      background: lighten($color-active-tile, 6%);
+
+      &:before {
+        border-right: ($cell-width / 2) solid lighten($color-active-tile, 6%);
+      }
+      &:after {
+        border-left: ($cell-width / 2) solid lighten($color-active-tile, 6%);
+      }
+    }
+
+  }
+
+
+
+
+
+
+
+
   &.demo-disabled {
     background: #AAA;
     color: #888;
@@ -115,7 +142,6 @@
     &:before { border-right: ($cell-width / 2) solid #AAA; }
     &:after  { border-left:  ($cell-width / 2) solid #AAA; }
   }
-
   &.demo-active {
     animation-name: demo-click-letter;
     animation-duration: 0.5s;
