@@ -15,18 +15,26 @@ var _letterDistribution = {
   Y: 2,  Z: 1
 };
 
-var _letterKeys = Object.keys(_letterDistribution);
-var _letters    = generateDistributionArray();
+var _letterKeys           = Object.keys(_letterDistribution);
+var _letters              = generateDistributionArray(_letterKeys, _letterDistribution);
+
+
+// Repeat the same process, but for special tiles.
+var SPECIAL_TILE_ODDS     = 0.1;
+var _specialDistribution  = { wildcard: 1 };
+var _specialKeys          = Object.keys(_specialDistribution);
+var _specials             = generateDistributionArray(_specialKeys, _specialDistribution);
+
 
 // This function generates an array with each letter repeated N times, where
 // N is its distribution in _letterDistribution.
 // eg. [A,A,A,A,A,A,A,A,A, B,B, C,C ...]
-function generateDistributionArray() {
+function generateDistributionArray(keys, distribution) {
   var occurances, letters = [];
 
 
-  _letterKeys.forEach(function(letter) {
-    occurances = _letterDistribution[letter];
+  keys.forEach(function(letter) {
+    occurances = distribution[letter];
 
     _.times(occurances, function() {
       letters.push(letter);
@@ -37,12 +45,23 @@ function generateDistributionArray() {
 }
 
 
+// MAIN EXPORT
 var letterGenerator = {
   generate: function(num) {
-    var letters = [];
+    var special, letter, letters = [];
 
     _.times(num, function() {
-      letters.push(_.sample(_letters));
+      // Figure out if this is a normal letter, or a special tile
+      isSpecial = Math.random() < SPECIAL_TILE_ODDS  
+
+      letter = isSpecial ? _.sample(_specials) : _.sample(_letters);
+
+      letters.push({
+        letter:   letter,
+        special:  isSpecial,
+        active:   false
+      });
+
     });
 
     return letters;

@@ -24,7 +24,7 @@ var _playerName       = null;
 var _gameActive       = false;
 var _gameOver         = false;
 
-var GAME_LENGTH = 1;
+var GAME_LENGTH = 120;
 
 function resetBoard(col, row) {
   var column, letters, letter;
@@ -45,10 +45,7 @@ function resetBoard(col, row) {
     column = [];
     letters = LetterGenerator.generate(row)
     letters.forEach(function(l) {
-      column.push({
-        letter: l,
-        active: false
-      });
+      column.push(l);
     });
 
     _board.push(column);
@@ -63,9 +60,11 @@ function setAllToInactive() {
   _board.forEach(function(column, columnIndex) {
     column.forEach(function(tile, rowIndex) {
       
+      // Replace me with Object.create
       _board[columnIndex][rowIndex] = {
-        letter: tile.letter,
-        active: false
+        letter:   tile.letter,
+        special:  tile.special,
+        active:   false
       };
     });
   });
