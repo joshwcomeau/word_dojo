@@ -141,7 +141,7 @@ function resetWord() {
 }
 
 function evaluateWord() {
-  var validWord = WordChecker.validateWord(_currentWord);
+  var validWord = WordChecker.validateWord(_active, _currentWord);
 
   if ( validWord ) {
     var newLetter, wordScore;

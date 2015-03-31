@@ -2,7 +2,7 @@
 // Validates whether a word is really a word.
 //
 
-var words = {};
+var wordChecker, words = {};
 
 // Returns an object with the key being the number of letters, the value being an array of
 // words with that many letters.
@@ -32,11 +32,20 @@ function buildWordObj(path) {
   });
 }
 
+function hasSpecialTiles(wordArray) {
+  return false;
+}
+
 buildWordObj('words.txt');
 
-var WordChecker = {
-  validateWord: function(word) {
-    console.log(words);
+WordChecker = {
+  validateWord: function(wordArray, word) {
+    if ( hasSpecialTiles(wordArray) ) {
+
+    }
+    else {
+
+    }
     return words[word.length].indexOf(word.toLowerCase()) !== -1;
   }
 };
