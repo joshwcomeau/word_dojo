@@ -29,6 +29,12 @@ function calculateMultiplier(wordLength) {
   return 1 + (wordLength-1) * wordLength * 2.5;
 }
 
+function compare(a, b) {
+  if ( a[1] > b[1] ) return -1;
+  if ( a[1] < b[1] ) return 1;
+  return 0;
+}
+
 var ScoreCalculator = {
   calculate: function(word) {
     // First we need to sum up the point value for every letter in the word.
@@ -40,6 +46,20 @@ var ScoreCalculator = {
     });
 
     return score * calculateMultiplier(word.length);
+  },
+
+  // Utility method to get an array sorted from highest point value to lowest point value.
+  // Used in WordChecker, when trying to find the best combination in wildcard words.
+  // Returns: [Z, Q, X, J, K, H ... A, N]
+  getWordsSortedByPoints: function(data) {
+    data = data || letterValues;
+
+    // Create a 2D array
+    var dataArray = _.pairs(data);
+
+    return dataArray.sort(compare).map(function(letter) {
+      return letter[0];
+    });
   }
 };
 
