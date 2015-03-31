@@ -191,6 +191,7 @@ var GameStore = _.extend({}, EventEmitter.prototype, {
   getBoard:       function() { return _board;           },
   getWord:        function() { return _currentWord;     },
   getWords:       function() { return _completedWords;  },
+  getActives:     function() { return _active;          },
   getLength:      function() { return GAME_LENGTH;      },
   getRecentMove:  function() { return _recentMoveState; },
   getGameOver:    function() { return _gameOver;        },

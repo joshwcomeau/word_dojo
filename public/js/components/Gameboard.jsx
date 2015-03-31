@@ -11,7 +11,7 @@ var FlashMessageActions = require('../actions/FlashMessageActions');
 function getState() {
   return {
     board: GameStore.getBoard(),
-    word:  GameStore.getWord(),
+    word:  GameStore.getActives(),
     over:  GameStore.getGameOver()
   };
 }
