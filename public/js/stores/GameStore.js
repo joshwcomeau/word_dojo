@@ -141,10 +141,15 @@ function resetWord() {
 }
 
 function evaluateWord() {
+  // Start by finding the optimal word, if wildcards are involved. 
   var validWord = WordChecker.validateWord(_active, _currentWord);
+
+  console.log(validWord);
 
   if ( validWord ) {
     var newLetter, wordScore;
+
+    _currentWord = validWord;
 
     // Add it to score
     wordScore = ScoreCalculator.calculate(_currentWord);
