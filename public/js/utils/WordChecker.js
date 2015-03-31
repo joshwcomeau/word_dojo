@@ -2,6 +2,7 @@
 // Validates whether a word is really a word.
 //
 
+
 var ScoreCalculator  = require('./ScoreCalculator');
 var wordChecker, words = {};
 
