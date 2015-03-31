@@ -41,6 +41,8 @@ function hasSpecialTiles(letterArray) {
 
 buildWordObj('words.txt');
 
+var finalWord = null;
+
 WordChecker = {
   validateWord: function(letterArray, word) {
     var wordLength, newLetterObj, newLetterArray, newWord, result;
@@ -53,7 +55,9 @@ WordChecker = {
       // to the lower branch below, where it gets treated as a regular word.
       var sortedLetterValues = ScoreCalculator.getWordsSortedByPoints();
 
-      letterArray.forEach(function(letter, index) {
+      _.some(letterArray, function(letter, index) {
+        console.log(letter, "at position", index);
+
         if ( letter.special && letter.letter === 'wildcard' ) {
           result = _.find(sortedLetterValues, function(sortedLetter) {
             newLetterObj   = { letter: sortedLetter, special: false, active: true };
@@ -67,17 +71,23 @@ WordChecker = {
 
           }, this);
         }
+        console.log("returning", result);
+        return result;
       }, this);
 
-
-      return result ? newWord : false;
+      console.log(result, "with variables:", newLetterArray, newWord, "and final word", finalWord)
+      return result ? finalWord : false;
     }
 
     // This is just a plain ol' word. No special tiles
     else {
       if ( words[letterArray.length].indexOf(word.toLowerCase()) !== -1 ) {
+        finalWord = word;
         console.log(word, "IS a word");
       } else {
+        // reset our finalWord
+        if ( finalWord )
+          finalWord = null;
         console.log(word, "is NOT a word");
       }
       return words[letterArray.length].indexOf(word.toLowerCase()) !== -1;
