@@ -1,7 +1,6 @@
 // Letter Generator.
 // Randomly selects appropriate letters. Also handles special letters (when I get there).
 
-
 // Using scrabble letter distributions, I'm gonna assume they've solved this problem.
 var _letterDistribution = {
   A: 9,  B: 2,  C: 2,

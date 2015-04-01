@@ -5,7 +5,6 @@
 //
 // See: http://www.redblobgames.com/grids/hexagons/
 
-
 var Neighbors = {
   areNeighbors: function(t1, t2) {
 
